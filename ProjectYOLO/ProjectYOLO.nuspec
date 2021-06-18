@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>ProjectYOLO</id>
+    <version>0.0.4</version>
+    <title>ProjectYOLO</title>
+    <authors>Amrutha</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <description>Nuget package for real time object detection</description>
+    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <tags>Tag1 Tag2</tags>
+  </metadata>
+
+  <files>
+    <file src="bin\Debug\*.dll" target="lib\uap10.0.17763" />
+    <file src="Assets\*" target="lib\uap10.0.17763\ProjectYOLO\Assets"/>
+    <file src="bin\Debug\*.pri" target="lib\uap10.0.17763" />
+  </files>
+</package>

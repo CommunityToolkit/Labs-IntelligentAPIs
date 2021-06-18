@@ -1,0 +1,32 @@
+﻿<Page
+    x:Class="ProjectBangaloreTest.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ProjectBangaloreTest"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Button Name="ButtonRun"
+                    ToolTipService.ToolTip="Pick and evaluate and image"
+                    Width="100"
+                    Height="40"
+                    Click="ButtonRun_Click" 
+                    IsEnabled="True" 
+                    VerticalAlignment="Bottom" RenderTransformOrigin="2.085,7.842" Margin="84,0,0,654">
+            <Button.Content>
+                Pick image
+            </Button.Content>
+        </Button>
+
+
+        <!--Image preview -->
+        <Image Name="UIPreviewImage" Stretch="Uniform" MaxWidth="300" MaxHeight="300"/>
+        <TextBlock x:Name="StatusBlock" 
+                       FontWeight="Bold" 
+                       TextWrapping="Wrap"  
+                       Text="Pick an image!" Margin="90,426,1013,245"/>
+    </Grid>
+</Page>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>ProjectBangalore</id>
+    <version>0.0.16</version>
+    <title>Cool nuget package for ML stuff</title>
+    <authors>Amrutha Srinivasan</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <projectUrl>http://project_url_here_or_delete_this_line/</projectUrl>
+    <iconUrl>http://icon_url_here_or_delete_this_line/</iconUrl>
+    <description>Nuget package that exposes APIs to perform image classification</description>
+    <copyright>Cool nuget package for ML stuff</copyright>
+  </metadata>
+<files>
+  <file src="bin\Debug\*.dll" target="lib\uap10.0.17763" />
+  <file src="Assets\*" target="lib\uap10.0.17763\ProjectBangalore\Assets"/>
+  <file src="bin\Debug\*.pri" target="lib\uap10.0.17763" />
+  </files>
+</package>
