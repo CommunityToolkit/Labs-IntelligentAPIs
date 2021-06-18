@@ -32,3 +32,6 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: setup-msbuild
         uses: microsoft/setup-msbuild@v1
+
+      - name: MSBuild
+        run: msbuild ProjectBangalore.sln
