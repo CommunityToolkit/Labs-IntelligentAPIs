@@ -25,13 +25,25 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+      - name: Checkout submodules
+        run: git submodule update --init --recursive
 
       # Runs a set of commands using the runners shell
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.0.2
         with:
           vs-version: '[16.10,16.11)'
+          
+          
+      - name: Install Composer Dependencies
+        working-directory: ./models
+        run: git lfs pull --include="vision/classification/squeezenet/model/squeezenet1.1-7.onnx" --exclude=""
+      
 
       - name: MSBuild
         working-directory: ./ProjectBangalore
         run: msbuild ProjectBangalore.csproj /restore
+        
+        
+        
+        
