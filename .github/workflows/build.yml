@@ -34,4 +34,4 @@ jobs:
 
       - name: MSBuild
         working-directory: ./ProjectBangalore
-        run: msbuild ProjectBangalore.csproj
+        run: msbuild ProjectBangalore.csproj /restore
