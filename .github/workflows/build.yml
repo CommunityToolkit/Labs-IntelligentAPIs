@@ -51,8 +51,8 @@ jobs:
         shell: powershell
 
       - name: MSBuild
-        working-directory: ./ProjectBangalore
-        run: msbuild ProjectBangalore.csproj /restore
+#        working-directory: ./ProjectBangalore
+        run: msbuild ProjectBangalore.sln /restore
         
         
         
