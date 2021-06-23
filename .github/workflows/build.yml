@@ -38,7 +38,15 @@ jobs:
       - name: Install Composer Dependencies
         working-directory: ./models
         run: git lfs pull --include="vision/classification/squeezenet/model/squeezenet1.1-7.onnx" --exclude=""
-      
+        
+      - name: copy file
+        uses: canastro/copy-file-action@master
+        with:
+          source: "./models/vision/classification/squeezenet/model/squeezenet1.1-7.onnx"
+          target: "./ProjectBangalore/Assets"
+          
+      - name: rename model file
+        run: ren "./ProjectBangalore/Assets/squeezenet1.1-7.onnx" "model.onnx"
 
       - name: MSBuild
         working-directory: ./ProjectBangalore
