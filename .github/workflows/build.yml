@@ -35,15 +35,20 @@ jobs:
           vs-version: '[16.10,16.11)'
           
           
-      - name: Install Composer Dependencies
-        working-directory: ./models
-        run: git lfs pull --include="vision/classification/squeezenet/model/squeezenet1.1-7.onnx" --exclude=""
+#      - name: Fetch models
+#        working-directory: ./models
+#        run: git lfs pull --include="vision/classification/squeezenet/model/squeezenet1.1-7.onnx" --exclude=""
         
-      - name: copy file
-        run: cp "./models/vision/classification/squeezenet/model/squeezenet1.1-7.onnx" "./ProjectBangalore/Assets"
+#      - name: copy file
+#        run: cp "./models/vision/classification/squeezenet/model/squeezenet1.1-7.onnx" "./ProjectBangalore/Assets"
         
-      - name: rename model file
-        run: ren "./ProjectBangalore/Assets/squeezenet1.1-7.onnx" "model.onnx"
+#      - name: rename model file
+#        run: ren "./ProjectBangalore/Assets/squeezenet1.1-7.onnx" "model.onnx"
+
+          
+      - name: Fetch models
+        run: .\Scripts\script.ps1
+        shell: powershell
 
       - name: MSBuild
         working-directory: ./ProjectBangalore
