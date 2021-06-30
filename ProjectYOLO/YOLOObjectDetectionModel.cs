@@ -133,7 +133,7 @@ namespace ProjectYOLO
             }
             var model_file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///ProjectYOLO/Assets//Yolo.onnx"));
             _model = await LearningModel.LoadFromStorageFileAsync(model_file);
-            var device = new LearningModelDevice(LearningModelDeviceKind.Cpu);
+            var device = new LearningModelDevice(LearningModelDeviceKind.Default);
             _session = new LearningModelSession(_model, device);
             _binding = new LearningModelBinding(_session);
         }
@@ -141,6 +141,24 @@ namespace ProjectYOLO
         public async Task<IReadOnlyList<DetectionResult>> EvaluateFrame(VideoFrame inputImage)
         {
             await InitModelAsync();
+            SoftwareBitmap bitmap = inputImage.SoftwareBitmap;
+            using (InMemoryRandomAccessStream stream = new InMemoryRandomAccessStream())
+            {
+                BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.BmpEncoderId, stream);
+
+                encoder.SetSoftwareBitmap(bitmap);
+
+                encoder.BitmapTransform.ScaledWidth = 416;
+                encoder.BitmapTransform.ScaledHeight = 416;
+                encoder.BitmapTransform.InterpolationMode = BitmapInterpolationMode.NearestNeighbor;
+
+                await encoder.FlushAsync();
+
+                BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
+
+                SoftwareBitmap newBitmap = await decoder.GetSoftwareBitmapAsync(BitmapPixelFormat.Bgra8, bitmap.BitmapAlphaMode);
+                inputImage = VideoFrame.CreateWithSoftwareBitmap(newBitmap);
+            }
             _binding.Clear();
             _binding.Bind("input_1:0", inputImage);
             var results = await _session.EvaluateAsync(_binding, "");
@@ -258,7 +276,6 @@ namespace ProjectYOLO
             int c_boxes = results.Length / c_values;
             float confidence_threshold = 0.5f;
             List<DetectionResult> detections = new List<DetectionResult>();
-            //this.OverlayCanvas.Children.Clear();
             for (int i_box = 0; i_box < c_boxes; i_box++)
             {
                 float max_prob = 0.0f;

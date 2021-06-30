@@ -45,7 +45,46 @@ namespace ProjectBangaloreTest
             fileOpenPicker.FileTypeFilter.Add(".png");
             fileOpenPicker.ViewMode = PickerViewMode.Thumbnail;
             StorageFile selectedStorageFile = await fileOpenPicker.PickSingleFileAsync();
+            if (selectedStorageFile != null)
+            {
+                await DisplayImage(selectedStorageFile);
 
+
+                //Use Squeezenet model to classify image
+                var imageClasses = await ProjectBangalore.SqueezeNetObjectDetectionModel.ClassifyImage(selectedStorageFile, 3);
+
+
+                //Use YOLOv4 to detect objects
+                var listOfObjects = await ProjectYOLO.YOLOObjectDetectionModel.DetectObjects(selectedStorageFile);
+
+                StatusBlock.Text = "";
+                for (int i = 0; i < imageClasses.Count; ++i)
+                {
+                    if (i == 0)
+                    {
+                        StatusBlock.Text = "SqueezeNet Results: \n"; ;
+                    }
+
+                    StatusBlock.Text += imageClasses[i].category + "with confidence "+ imageClasses[i].confidence + "\n";
+
+                }
+
+                for (int i = 0; i < listOfObjects.Count; ++i)
+                {
+                    if(i == 0)
+                    {
+                       StatusBlock.Text += "Yolo Results : \n";
+                    }
+
+                    StatusBlock.Text += listOfObjects[i].label + "\n";
+
+                }
+            }
+
+        }
+
+        private async Task DisplayImage(StorageFile selectedStorageFile)
+        {
             SoftwareBitmap softwareBitmap;
             using (IRandomAccessStream stream = await selectedStorageFile.OpenAsync(FileAccessMode.Read))
             {
@@ -60,24 +99,6 @@ namespace ProjectBangaloreTest
             SoftwareBitmapSource imageSource = new SoftwareBitmapSource();
             await imageSource.SetBitmapAsync(softwareBitmap);
             UIPreviewImage.Source = imageSource;
-
-            //TODO: Make this model agnostic??
-
-            //Use Squeezenet model to classify image
-            var list = await ProjectBangalore.SqueezeNetObjectDetectionModel.ClassifyImage(selectedStorageFile, 3);
-
-
-            //Use YOLOv4 to detect objects
-            var results = await ProjectYOLO.YOLOObjectDetectionModel.DetectObjects(selectedStorageFile);
-            StatusBlock.Text = "SqueezeNet: " + list[0].category + "\n Yolo: ";
-
-            for (int i = 0; i < results.Count; ++i)
-            {
-
-                StatusBlock.Text += results[i].label + "\n";
-
-            }
-
         }
     }
 }
