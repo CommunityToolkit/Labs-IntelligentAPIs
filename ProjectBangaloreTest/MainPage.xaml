@@ -23,10 +23,14 @@
 
 
         <!--Image preview -->
-        <Image Name="UIPreviewImage" Stretch="Uniform" MaxWidth="300" MaxHeight="300"/>
+        <Grid>
+        <Image Name="UIPreviewImage" Stretch="Fill"  VerticalAlignment="Center" HorizontalAlignment="Center" Width="416" Height="416"/>
+        <Canvas x:Name="OverlayCanvas" VerticalAlignment="Center" HorizontalAlignment="Center" Width="416" Height="416"/>
+        </Grid>
         <TextBlock x:Name="StatusBlock" 
                        FontWeight="Bold" 
-                       TextWrapping="Wrap"  
-                       Text="Pick an image!" Margin="90,426,1013,245"/>
+                       TextWrapping="WrapWholeWords"  
+                       Text="Pick an image!" Margin="90,426,773,82"/>
+        
     </Grid>
 </Page>

@@ -12,14 +12,14 @@ using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace ProjectYOLO
+namespace ObjectDetection
 {
-    public class YOLOObjectDetectionModel
+    public class YOLOObjectDetector
     {
         private LearningModel _model = null;
         private LearningModelSession _session;
         private LearningModelBinding _binding;
-        private static YOLOObjectDetectionModel instance;
+        private static YOLOObjectDetector instance;
         private readonly string[] _labels =
     {
                 "person",
@@ -104,7 +104,7 @@ namespace ProjectYOLO
                 "toothbrush"
         };
 
-        private YOLOObjectDetectionModel()
+        private YOLOObjectDetector()
         {
 
         }
@@ -119,7 +119,7 @@ namespace ProjectYOLO
         {
             if (instance == null)
             {
-                instance = new YOLOObjectDetectionModel();
+                instance = new YOLOObjectDetector();
             }
 
             return await instance.EvaluateFrame(file);
@@ -131,11 +131,19 @@ namespace ProjectYOLO
             {
                 return;
             }
-            var model_file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///ProjectYOLO/Assets//Yolo.onnx"));
-            _model = await LearningModel.LoadFromStorageFileAsync(model_file);
-            var device = new LearningModelDevice(LearningModelDeviceKind.Default);
-            _session = new LearningModelSession(_model, device);
-            _binding = new LearningModelBinding(_session);
+            try
+            {
+                var model_file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///ProjectYOLO/Assets//Yolo.onnx"));
+                _model = await LearningModel.LoadFromStorageFileAsync(model_file);
+                var device = new LearningModelDevice(LearningModelDeviceKind.Default);
+                _session = new LearningModelSession(_model, device);
+                _binding = new LearningModelBinding(_session);
+            }
+            catch (Exception ex)
+            {
+                _model = null;
+                throw ex;
+            }
         }
 
         public async Task<IReadOnlyList<DetectionResult>> EvaluateFrame(VideoFrame inputImage)

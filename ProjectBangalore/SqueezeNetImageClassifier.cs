@@ -13,11 +13,11 @@ using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace ProjectBangalore
+namespace ImageClassification
 {
 
  
-    public class SqueezeNetObjectDetectionModel
+    public class SqueezeNetImageClassifier
     {
         private const string _kModelFileName = "model.onnx";
         private const string _kLabelsFileName = "Labels.json";
@@ -25,16 +25,16 @@ namespace ProjectBangalore
         private LearningModelSession _session;
         private List<string> _labels = new List<string>();
         private int _runCount = 0;
-        private static SqueezeNetObjectDetectionModel instance;
+        private static SqueezeNetImageClassifier instance;
 
-        private SqueezeNetObjectDetectionModel()
+        private SqueezeNetImageClassifier()
         {
         }
         public static async Task<List<SqueezeNetResult>> ClassifyImage(StorageFile selectedStorageFile, int top)
         {
             if (instance == null)
             {
-                instance = new SqueezeNetObjectDetectionModel();
+                instance = new SqueezeNetImageClassifier();
             }
             return await instance.EvaluateModel(selectedStorageFile, top);
         }
@@ -94,6 +94,7 @@ namespace ProjectBangalore
             catch (Exception ex)
             {
                 _model = null;
+                throw ex;
             }
         }
 

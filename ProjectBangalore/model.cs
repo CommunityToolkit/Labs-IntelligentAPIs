@@ -8,7 +8,7 @@ using Windows.Media;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.AI.MachineLearning;
-namespace ProjectBangalore
+namespace ImageClassification
 {
     
     public sealed class modelInput

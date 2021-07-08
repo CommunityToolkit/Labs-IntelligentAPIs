@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}</ProjectGuid>
+    <ProjectGuid>{F705B499-D0B5-408C-B1D1-D3F379D0FCD6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ProjectYOLO</RootNamespace>
-    <AssemblyName>ProjectYOLO</AssemblyName>
+    <RootNamespace>ProjectBangalore</RootNamespace>
+    <AssemblyName>ProjectBangalore</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.19041.0</TargetPlatformVersion>
@@ -120,22 +120,22 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="YOLOObjectDetectionModel.cs" />
+    <Compile Include="SqueezeNetImageClassifier.cs" />
+    <Compile Include="model.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Yolo.cs" />
-    <EmbeddedResource Include="Properties\ProjectYOLO.rd.xml" />
+    <EmbeddedResource Include="Properties\ProjectBangalore.rd.xml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.11</Version>
     </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>13.0.1</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\Yolo.onnx" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ProjectYOLO.nuspec" />
-    <None Include="ProjectYOLO.pri" />
+    <Content Include="Assets\model.onnx" />
+    <Content Include="Assets\Labels.json" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
