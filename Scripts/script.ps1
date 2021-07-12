@@ -1,11 +1,13 @@
-Set-Location ./models
-git lfs pull --include="vision/classification/squeezenet/model/squeezenet1.1-7.onnx", "vision/object_detection_segmentation/yolov4/model/yolov4.onnx" --exclude=""
+if (-not(Test-Path -Path $yolofile -PathType Leaf)) {
+     try {
+         Invoke-WebRequest -URI "https://github.com/microsoft/Windows-Machine-Learning/raw/master/Samples/Tutorial%20Samples/YOLOv4ObjectDetection/YOLOv4ObjectDetection/Assets/Yolo.onnx" -OutFile "../ProjectYOLO/Assets/Yolo.onnx"
+         Write-Host "The file [$yolofile] has been created."
+     }
+     catch {
+         throw $_.Exception.Message
+     }
+ }
+ else {
+    Write-Host "The file [$yolofile] exists."
+}
 
-Set-Location ..
-Copy-Item "./models/vision/classification/squeezenet/model/squeezenet1.1-7.onnx" "./ProjectBangalore/Assets"
-Copy-Item "./models/vision/object_detection_segmentation/yolov4/model/yolov4.onnx" "./ProjectYOLO/Assets"
-
-
-Rename-Item "./ProjectBangalore/Assets/squeezenet1.1-7.onnx" "model.onnx"
-
-Rename-Item "./ProjectYOLO/Assets/yolov4.onnx" "Yolo.onnx"

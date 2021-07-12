@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package >
   <metadata>
-    <id>ProjectBangalore</id>
+    <id>IntelligentAPI.ImageClassifier</id>
     <version>0.0.16</version>
     <title>Cool nuget package for ML stuff</title>
     <authors>Amrutha Srinivasan</authors>
@@ -14,7 +14,7 @@
   </metadata>
 <files>
   <file src="bin\Debug\*.dll" target="lib\uap10.0.17763" />
-  <file src="Assets\*" target="lib\uap10.0.17763\ProjectBangalore\Assets"/>
+  <file src="Assets\*" target="lib\uap10.0.17763\IntelligentAPI_ImageClassifier\Assets"/>
   <file src="bin\Debug\*.pri" target="lib\uap10.0.17763" />
   </files>
 </package>

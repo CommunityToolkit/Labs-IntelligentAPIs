@@ -20,13 +20,11 @@ using Windows.Storage;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
-using ImageClassification;
-using ObjectDetection;
+using IntelligentAPI.ImageClassification;
+using IntelligentAPI.ObjectDetection;
 using Windows.UI.Xaml.Shapes;
 using Windows.UI;
 
-
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace ProjectBangaloreTest
 {
@@ -60,18 +58,18 @@ namespace ProjectBangaloreTest
 
 
                 //Use Squeezenet model to classify image
-                var imageClasses = await ImageClassification.SqueezeNetImageClassifier.ClassifyImage(selectedStorageFile, 3);
+                List<ClassificationResult> imageClasses = await SqueezeNetImageClassifier.ClassifyImage(selectedStorageFile, 3);
 
 
                 //Use YOLOv4 to detect objects
-                var listOfObjects = await ObjectDetection.YOLOObjectDetector.DetectObjects(selectedStorageFile);
+                List<DetectionResult> listOfObjects = await YOLOObjectDetector.DetectObjects(selectedStorageFile);
 
                 UpdateTextBoxAsync(imageClasses, listOfObjects);
             }
 
         }
 
-        private async Task UpdateTextBoxAsync(List<SqueezeNetResult> imageClasses, IReadOnlyList<YOLOObjectDetector.DetectionResult> listOfObjects)
+        private async Task UpdateTextBoxAsync(List<ClassificationResult> imageClasses, List<DetectionResult> listOfObjects)
         {
             StatusBlock.Text = "";
             for (int i = 0; i < imageClasses.Count; ++i)
@@ -100,7 +98,7 @@ namespace ProjectBangaloreTest
 
 
         // draw bounding boxes on the output frame based on evaluation result
-        private async Task DrawBoxes(IReadOnlyList<YOLOObjectDetector.DetectionResult> results)
+        private async Task DrawBoxes(List<DetectionResult> results)
         {
 
             for (int i = 0; i < results.Count; ++i)
@@ -126,7 +124,7 @@ namespace ProjectBangaloreTest
                 r.Stroke = this._line_brush;
                 r.StrokeThickness = this._line_thickness;
                 r.Margin = new Thickness(left, top, 0, 0);
-
+                r.Visibility = Visibility.Visible;
                 this.OverlayCanvas.Children.Add(r);
                 // Default configuration for border
                 // Render text label
@@ -145,8 +143,8 @@ namespace ProjectBangaloreTest
                 border.Background = backgroundColorBrush;
                 border.Child = textBlock;
 
-                Canvas.SetLeft(border, results[i].bbox[1] * 416 + 2);
-                Canvas.SetTop(border, results[i].bbox[0] * 416 + 2);
+                Canvas.SetLeft(border, results[i].bbox[1] * UIPreviewImage.Width + 2);
+                Canvas.SetTop(border, results[i].bbox[0] * UIPreviewImage.Height + 2);
                 textBlock.Visibility = Visibility.Visible;
                 // Add to canvas
                 this.OverlayCanvas.Children.Add(border);

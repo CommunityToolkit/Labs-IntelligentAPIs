@@ -12,7 +12,7 @@ using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace ObjectDetection
+namespace IntelligentAPI.ObjectDetection
 {
     public class YOLOObjectDetector
     {
@@ -109,13 +109,13 @@ namespace ObjectDetection
 
         }
 
-        public static async Task<IReadOnlyList<DetectionResult>> DetectObjects(StorageFile file)
+        public static async Task<List<DetectionResult>> DetectObjects(StorageFile file)
         {
             VideoFrame inputImage = await convertToVideoFrame(file);
             return await DetectObjects(inputImage);
         }
 
-        public static async Task<IReadOnlyList<DetectionResult>> DetectObjects(VideoFrame file)
+        public static async Task<List<DetectionResult>> DetectObjects(VideoFrame file)
         {
             if (instance == null)
             {
@@ -146,7 +146,7 @@ namespace ObjectDetection
             }
         }
 
-        public async Task<IReadOnlyList<DetectionResult>> EvaluateFrame(VideoFrame inputImage)
+        public async Task<List<DetectionResult>> EvaluateFrame(VideoFrame inputImage)
         {
             await InitModelAsync();
             SoftwareBitmap bitmap = inputImage.SoftwareBitmap;
@@ -177,7 +177,7 @@ namespace ObjectDetection
             List<DetectionResult> detections = ParseResult(data.ToList<float>().ToArray());
             Comparer cp = new Comparer();
             detections.Sort(cp);
-            IReadOnlyList<DetectionResult> final_detections = NMS(detections);
+            List<DetectionResult> final_detections = NMS(detections);
 
             return final_detections;
         }
@@ -202,13 +202,6 @@ namespace ObjectDetection
             // Encapsulate the image within a VideoFrame to be bound and evaluated
             VideoFrame inputImage = VideoFrame.CreateWithSoftwareBitmap(softwareBitmap);
             return inputImage;
-        }
-
-        public struct DetectionResult
-        {
-            public string label;
-            public List<float> bbox;
-            public double prob;
         }
 
         class Comparer : IComparer<DetectionResult>
@@ -315,5 +308,13 @@ namespace ObjectDetection
             }
             return detections;
         }
+
+    }
+
+    public class DetectionResult
+    {
+        public string label;
+        public List<float> bbox;
+        public double prob;
     }
 }

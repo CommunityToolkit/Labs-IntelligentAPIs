@@ -13,7 +13,7 @@ using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace ImageClassification
+namespace IntelligentAPI.ImageClassification
 {
 
  
@@ -30,7 +30,7 @@ namespace ImageClassification
         private SqueezeNetImageClassifier()
         {
         }
-        public static async Task<List<SqueezeNetResult>> ClassifyImage(StorageFile selectedStorageFile, int top)
+        public static async Task<List<ClassificationResult>> ClassifyImage(StorageFile selectedStorageFile, int top)
         {
             if (instance == null)
             {
@@ -38,7 +38,7 @@ namespace ImageClassification
             }
             return await instance.EvaluateModel(selectedStorageFile, top);
         }
-        public async Task<List<SqueezeNetResult>> EvaluateModel(StorageFile selectedStorageFile, int top)
+        public async Task<List<ClassificationResult>> EvaluateModel(StorageFile selectedStorageFile, int top)
         {
             await LoadModelAsync();
             SoftwareBitmap softwareBitmap;
@@ -71,7 +71,7 @@ namespace ImageClassification
             {
                 // Parse labels from label json file.  We know the file's 
                 // entries are already sorted in order.
-                var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///ProjectBangalore/Assets/Labels.json"));
+                var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///IntelligentAPI_ImageClassifier/Assets/Labels.json"));
 
                 var fileString = await FileIO.ReadTextAsync(file);
          
@@ -83,7 +83,7 @@ namespace ImageClassification
                 }
 
 
-                var modelFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///ProjectBangalore/Assets/model.onnx"));
+                var modelFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///IntelligentAPI_ImageClassifier/Assets/model.onnx"));
                 _model = await LearningModel.LoadFromStorageFileAsync(modelFile);
 
                 // Create the evaluation session with the model and device
@@ -105,9 +105,9 @@ namespace ImageClassification
         }
 
 
-        private async Task<List<SqueezeNetResult>> EvaluateVideoFrameAsync(VideoFrame inputFrame, int top)
+        private async Task<List<ClassificationResult>> EvaluateVideoFrameAsync(VideoFrame inputFrame, int top)
         {
-            List<SqueezeNetResult> result = new List<SqueezeNetResult>();
+            List<ClassificationResult> result = new List<ClassificationResult>();
             if (inputFrame != null)
             {
                 try
@@ -160,7 +160,7 @@ namespace ImageClassification
                     for (int i = 0; i < top; i++)
                     {
                         message += $"\n\"{ _labels[indexedResults[i].index]}\" with confidence of { indexedResults[i].probability}";
-                        result.Add(new SqueezeNetResult(_labels[indexedResults[i].index], indexedResults[i].probability));
+                        result.Add(new ClassificationResult(_labels[indexedResults[i].index], indexedResults[i].probability));
                     }
 
                 
@@ -176,11 +176,11 @@ namespace ImageClassification
         }
     }
 
-    public class SqueezeNetResult
+    public class ClassificationResult
     {
         public string category;
         public float confidence;
-        public SqueezeNetResult(string category, float confidence)
+        public ClassificationResult(string category, float confidence)
         {
             this.category = category;
             this.confidence = confidence;
