@@ -7,8 +7,8 @@
     <ProjectGuid>{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ProjectYOLO</RootNamespace>
-    <AssemblyName>ProjectYOLO</AssemblyName>
+    <RootNamespace>IntelligentAPI.ObjectDetection</RootNamespace>
+    <AssemblyName>IntelligentAPI_ObjectDetector</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.19041.0</TargetPlatformVersion>

@@ -133,7 +133,7 @@ namespace IntelligentAPI.ObjectDetection
             }
             try
             {
-                var model_file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///ProjectYOLO/Assets//Yolo.onnx"));
+                var model_file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///IntelligentAPI_ObjectDetector/Assets//Yolo.onnx"));
                 _model = await LearningModel.LoadFromStorageFileAsync(model_file);
                 var device = new LearningModelDevice(LearningModelDeviceKind.Default);
                 _session = new LearningModelSession(_model, device);

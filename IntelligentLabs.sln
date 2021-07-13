@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31410.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntelligentAPI_ImageClassifier", "ProjectBangalore\IntelligentAPI_ImageClassifier.csproj", "{F705B499-D0B5-408C-B1D1-D3F379D0FCD6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntelligentAPI_ObjectDetector", "ObjectDetector\IntelligentAPI_ObjectDetector.csproj", "{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntelligentLabsTest", "ProjectBangaloreTest\IntelligentLabsTest.csproj", "{47D87733-B357-4706-88BD-211FB7D8679D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntelligentAPI_ImageClassifier", "ImageClassifier\IntelligentAPI_ImageClassifier.csproj", "{F705B499-D0B5-408C-B1D1-D3F379D0FCD6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntelligentAPI_ObjectDetector", "ProjectYOLO\IntelligentAPI_ObjectDetector.csproj", "{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntelligentLabsTest", "IntelligentAPIsTester\IntelligentLabsTest.csproj", "{47D87733-B357-4706-88BD-211FB7D8679D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +23,26 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Debug|ARM.ActiveCfg = Debug|ARM
+		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Debug|ARM.Build.0 = Debug|ARM
+		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Debug|ARM64.Build.0 = Debug|ARM64
+		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Debug|x64.ActiveCfg = Debug|x64
+		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Debug|x64.Build.0 = Debug|x64
+		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Debug|x86.ActiveCfg = Debug|x86
+		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Debug|x86.Build.0 = Debug|x86
+		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Release|ARM.ActiveCfg = Release|ARM
+		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Release|ARM.Build.0 = Release|ARM
+		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Release|ARM64.ActiveCfg = Release|ARM64
+		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Release|ARM64.Build.0 = Release|ARM64
+		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Release|x64.ActiveCfg = Release|x64
+		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Release|x64.Build.0 = Release|x64
+		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Release|x86.ActiveCfg = Release|x86
+		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Release|x86.Build.0 = Release|x86
 		{F705B499-D0B5-408C-B1D1-D3F379D0FCD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F705B499-D0B5-408C-B1D1-D3F379D0FCD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F705B499-D0B5-408C-B1D1-D3F379D0FCD6}.Debug|ARM.ActiveCfg = Debug|ARM
@@ -69,26 +89,6 @@ Global
 		{47D87733-B357-4706-88BD-211FB7D8679D}.Release|x86.ActiveCfg = Release|x86
 		{47D87733-B357-4706-88BD-211FB7D8679D}.Release|x86.Build.0 = Release|x86
 		{47D87733-B357-4706-88BD-211FB7D8679D}.Release|x86.Deploy.0 = Release|x86
-		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Debug|ARM.ActiveCfg = Debug|ARM
-		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Debug|ARM.Build.0 = Debug|ARM
-		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Debug|ARM64.ActiveCfg = Debug|ARM64
-		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Debug|ARM64.Build.0 = Debug|ARM64
-		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Debug|x64.ActiveCfg = Debug|x64
-		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Debug|x64.Build.0 = Debug|x64
-		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Debug|x86.ActiveCfg = Debug|x86
-		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Debug|x86.Build.0 = Debug|x86
-		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Release|ARM.ActiveCfg = Release|ARM
-		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Release|ARM.Build.0 = Release|ARM
-		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Release|ARM64.ActiveCfg = Release|ARM64
-		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Release|ARM64.Build.0 = Release|ARM64
-		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Release|x64.ActiveCfg = Release|x64
-		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Release|x64.Build.0 = Release|x64
-		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Release|x86.ActiveCfg = Release|x86
-		{6F985DC2-DB68-49E5-ADD8-6D11F35E552E}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

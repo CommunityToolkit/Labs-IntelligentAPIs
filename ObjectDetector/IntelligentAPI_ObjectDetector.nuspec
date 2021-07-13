@@ -2,9 +2,9 @@
 <package >
   <metadata>
     <id>IntelligentAPI_ObjectDetector</id>
-    <version>0.0.4</version>
-    <title>ProjectYOLO</title>
-    <authors>Amrutha</authors>
+    <version>0.0.5</version>
+    <title>IntelligentAPI_ObjectDetector</title>
+    <authors>Amrutha Srinivasan</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
     <description>Nuget package for real time object detection</description>
