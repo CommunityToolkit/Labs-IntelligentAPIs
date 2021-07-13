@@ -2,9 +2,9 @@
   Intelligent APIs
 </h1>
 
-## What is IntelligentAPIs?
+## What are Intelligent APIs?
 
-Intelligent APIs aims to make machine learning tasks easier for developers to leverage in their applications without needing ML expertise or creating a new model.
+Intelligent APIs aim to make machine learning tasks easier for developers to leverage in their applications without needing ML expertise or creating a new model.
 By just importing a nuget package and calling a function, we want developers to be able to build intelligent app experiences without needing to deal with the complexities of inferencing machine learning models on Windows.
 
 ## Pre-requisites
