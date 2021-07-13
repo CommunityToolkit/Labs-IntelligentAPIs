@@ -46,3 +46,10 @@ This nuget package performs object detection using [YOLOv4](https://github.com/h
 <img src="https://user-images.githubusercontent.com/22471775/125318395-a861af00-e2ee-11eb-97b4-87b0fb4a5460.png" alt="drawing" width="300"/>
 </div>
 
+## Steps to clone the repo
+
+1. `git clone` the repo (duh!)
+2.  Open the .sln file in VS 2017 or newer
+3.  Set `IntelligentLabsTest` as the startup project.
+4.  Build the project and run!
+
