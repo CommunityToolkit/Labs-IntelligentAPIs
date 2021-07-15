@@ -1,4 +1,4 @@
-# Windows Community Toolkit
+# Intelligent Labs
 
 Copyright (c) .NET Foundation and Contributors
 
