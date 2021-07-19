@@ -136,6 +136,7 @@
   <ItemGroup>
     <None Include="IntelligentAPI_ObjectDetector.nuspec" />
     <None Include="IntelligentAPI_ObjectDetector.pri" />
+    <None Include="ObjectDetector.licenseheader" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

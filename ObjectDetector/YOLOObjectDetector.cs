@@ -1,5 +1,8 @@
-﻿using System;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -111,18 +114,25 @@ namespace IntelligentAPI.ObjectDetection
 
         public static async Task<List<DetectionResult>> DetectObjects(StorageFile file)
         {
-            VideoFrame inputImage = await convertToVideoFrame(file);
-            return await DetectObjects(inputImage);
+            SoftwareBitmap bitmap = await GenerateSoftwareBitmapFromStorageFile(file);
+            VideoFrame videoFrame = await GenerateVideoFrameFromBitmap(bitmap);
+            return await DetectObjects(videoFrame);
         }
 
-        public static async Task<List<DetectionResult>> DetectObjects(VideoFrame file)
+        public static async Task<List<DetectionResult>> DetectObjects(SoftwareBitmap bitmap)
+        {
+            VideoFrame videoFrame = await GenerateVideoFrameFromBitmap(bitmap);
+            return await DetectObjects(videoFrame);
+        }
+
+        public static async Task<List<DetectionResult>> DetectObjects(VideoFrame videoFrame)
         {
             if (instance == null)
             {
                 instance = new YOLOObjectDetector();
             }
 
-            return await instance.EvaluateFrame(file);
+            return await instance.EvaluateFrame(videoFrame);
         }
 
         private async Task InitModelAsync()
@@ -150,6 +160,24 @@ namespace IntelligentAPI.ObjectDetection
         {
             await InitModelAsync();
             SoftwareBitmap bitmap = inputImage.SoftwareBitmap;
+            inputImage = await ResizeImage(inputImage, bitmap);
+            _binding.Clear();
+            _binding.Bind("input_1:0", inputImage);
+            var results = await _session.EvaluateAsync(_binding, "");
+
+            TensorFloat result = results.Outputs["Identity:0"] as TensorFloat;
+            var data = result.GetAsVectorView();
+
+            List<DetectionResult> detections = ParseResult(data.ToList<float>().ToArray());
+            Comparer cp = new Comparer();
+            detections.Sort(cp);
+            List<DetectionResult> final_detections = NMS(detections);
+
+            return final_detections;
+        }
+
+        private static async Task<VideoFrame> ResizeImage(VideoFrame inputImage, SoftwareBitmap bitmap)
+        {
             using (InMemoryRandomAccessStream stream = new InMemoryRandomAccessStream())
             {
                 BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.BmpEncoderId, stream);
@@ -167,25 +195,24 @@ namespace IntelligentAPI.ObjectDetection
                 SoftwareBitmap newBitmap = await decoder.GetSoftwareBitmapAsync(BitmapPixelFormat.Bgra8, bitmap.BitmapAlphaMode);
                 inputImage = VideoFrame.CreateWithSoftwareBitmap(newBitmap);
             }
-            _binding.Clear();
-            _binding.Bind("input_1:0", inputImage);
-            var results = await _session.EvaluateAsync(_binding, "");
 
-            TensorFloat result = results.Outputs["Identity:0"] as TensorFloat;
-            var data = result.GetAsVectorView();
-
-            List<DetectionResult> detections = ParseResult(data.ToList<float>().ToArray());
-            Comparer cp = new Comparer();
-            detections.Sort(cp);
-            List<DetectionResult> final_detections = NMS(detections);
-
-            return final_detections;
+            return inputImage;
         }
 
-        private static async Task<VideoFrame> convertToVideoFrame(StorageFile file)
+        private static async Task<VideoFrame> GenerateVideoFrameFromBitmap(SoftwareBitmap softwareBitmap)
+        {
+            SoftwareBitmapSource imageSource = new SoftwareBitmapSource();
+            await imageSource.SetBitmapAsync(softwareBitmap);
+
+            // Encapsulate the image within a VideoFrame to be bound and evaluated
+            VideoFrame videoFrame = VideoFrame.CreateWithSoftwareBitmap(softwareBitmap);
+            return videoFrame;
+        }
+
+        private static async Task<SoftwareBitmap> GenerateSoftwareBitmapFromStorageFile(StorageFile selectedStorageFile)
         {
             SoftwareBitmap softwareBitmap;
-            using (IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read))
+            using (IRandomAccessStream stream = await selectedStorageFile.OpenAsync(FileAccessMode.Read))
             {
                 // Create the decoder from the stream 
                 BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
@@ -195,13 +222,7 @@ namespace IntelligentAPI.ObjectDetection
                 softwareBitmap = SoftwareBitmap.Convert(softwareBitmap, BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied);
             }
 
-            // Display the image
-            SoftwareBitmapSource imageSource = new SoftwareBitmapSource();
-            await imageSource.SetBitmapAsync(softwareBitmap);
-
-            // Encapsulate the image within a VideoFrame to be bound and evaluated
-            VideoFrame inputImage = VideoFrame.CreateWithSoftwareBitmap(softwareBitmap);
-            return inputImage;
+            return softwareBitmap;
         }
 
         class Comparer : IComparer<DetectionResult>

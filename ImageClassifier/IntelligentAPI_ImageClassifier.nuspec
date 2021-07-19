@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package >
   <metadata>
-    <id>IntelligentAPI.ImageClassifier</id>
-    <version>0.0.16</version>
+    <id>IntelligentAPI_ImageClassifier</id>
+    <version>0.0.17</version>
     <title>Cool nuget package for ML stuff</title>
     <authors>Amrutha Srinivasan</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -11,6 +11,7 @@
     <iconUrl>http://icon_url_here_or_delete_this_line/</iconUrl>
     <description>Nuget package that exposes APIs to perform image classification</description>
     <copyright>Cool nuget package for ML stuff</copyright>
+    <repository type="git" url="https://github.com/windows-toolkit/Labs-IntelligentAPIs.git"></repository>
   </metadata>
 <files>
   <file src="bin\Debug\*.dll" target="lib\uap10.0.17763" />

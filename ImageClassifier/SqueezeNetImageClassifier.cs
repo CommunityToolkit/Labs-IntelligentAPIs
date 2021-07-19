@@ -1,4 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,6 +15,8 @@ using Windows.Media;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
+using System.Text.Json;
+
 
 namespace IntelligentAPI.ImageClassification
 {
@@ -19,8 +24,8 @@ namespace IntelligentAPI.ImageClassification
  
     public class SqueezeNetImageClassifier
     {
-        private const string _kModelFileName = "model.onnx";
-        private const string _kLabelsFileName = "Labels.json";
+        private const string _modelFileName = "model.onnx";
+        private const string _labelsFileName = "Labels.json";
         private LearningModel _model = null;
         private LearningModelSession _session;
         private List<string> _labels = new List<string>();
@@ -30,17 +35,53 @@ namespace IntelligentAPI.ImageClassification
         private SqueezeNetImageClassifier()
         {
         }
-        public static async Task<List<ClassificationResult>> ClassifyImage(StorageFile selectedStorageFile, int top)
+        public static async Task<List<ClassificationResult>> ClassifyImage(StorageFile selectedStorageFile, int top=3)
+        {
+            CreateInstanceIfNone();
+            SoftwareBitmap softwareBitmap = await GenerateSoftwareBitmapFromStorageFile(selectedStorageFile);
+            VideoFrame videoFrame = await GenerateVideoFrameFromBitmap(softwareBitmap);
+            return await instance.EvaluateModel(videoFrame, top);
+        }
+
+        public static async Task<List<ClassificationResult>> ClassifyImage(SoftwareBitmap softwareBitmap, int top=3)
+        {
+            CreateInstanceIfNone();
+            VideoFrame videoFrame = await GenerateVideoFrameFromBitmap(softwareBitmap);
+            return await instance.EvaluateModel(videoFrame, top);
+        }
+
+        public static async Task<List<ClassificationResult>> ClassifyImage(VideoFrame videoFrame, int top=3)
+        {
+            CreateInstanceIfNone();
+            return await instance.EvaluateModel(videoFrame, top);
+        }
+
+        private static void CreateInstanceIfNone()
         {
             if (instance == null)
             {
                 instance = new SqueezeNetImageClassifier();
             }
-            return await instance.EvaluateModel(selectedStorageFile, top);
         }
-        public async Task<List<ClassificationResult>> EvaluateModel(StorageFile selectedStorageFile, int top)
+
+        public async Task<List<ClassificationResult>> EvaluateModel(VideoFrame inputImage, int top)
         {
             await LoadModelAsync();
+            return await EvaluateVideoFrameAsync(inputImage, top);
+        }
+
+        private static async Task<VideoFrame> GenerateVideoFrameFromBitmap(SoftwareBitmap softwareBitmap)
+        {
+            SoftwareBitmapSource imageSource = new SoftwareBitmapSource();
+            await imageSource.SetBitmapAsync(softwareBitmap);
+
+            // Encapsulate the image within a VideoFrame to be bound and evaluated
+            VideoFrame videoFrame = VideoFrame.CreateWithSoftwareBitmap(softwareBitmap);
+            return videoFrame;
+        }
+
+        private static async Task<SoftwareBitmap> GenerateSoftwareBitmapFromStorageFile(StorageFile selectedStorageFile)
+        {
             SoftwareBitmap softwareBitmap;
             using (IRandomAccessStream stream = await selectedStorageFile.OpenAsync(FileAccessMode.Read))
             {
@@ -52,14 +93,7 @@ namespace IntelligentAPI.ImageClassification
                 softwareBitmap = SoftwareBitmap.Convert(softwareBitmap, BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied);
             }
 
-            // Display the image
-            SoftwareBitmapSource imageSource = new SoftwareBitmapSource();
-            await imageSource.SetBitmapAsync(softwareBitmap);
-
-            // Encapsulate the image within a VideoFrame to be bound and evaluated
-            VideoFrame inputImage = VideoFrame.CreateWithSoftwareBitmap(softwareBitmap);
-
-            return await EvaluateVideoFrameAsync(inputImage, top);
+            return softwareBitmap;
         }
 
         private async Task LoadModelAsync()
@@ -71,11 +105,11 @@ namespace IntelligentAPI.ImageClassification
             {
                 // Parse labels from label json file.  We know the file's 
                 // entries are already sorted in order.
-                var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///IntelligentAPI_ImageClassifier/Assets/Labels.json"));
+                var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///IntelligentAPI_ImageClassifier/Assets/" + _labelsFileName));
 
                 var fileString = await FileIO.ReadTextAsync(file);
          
-                var fileDict = JsonConvert.DeserializeObject<Dictionary<string, string>>(fileString);
+                var fileDict = JsonSerializer.Deserialize<Dictionary<string, string>>(fileString);
 
                 foreach (var kvp in fileDict)
                 {
@@ -83,7 +117,7 @@ namespace IntelligentAPI.ImageClassification
                 }
 
 
-                var modelFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///IntelligentAPI_ImageClassifier/Assets/model.onnx"));
+                var modelFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///IntelligentAPI_ImageClassifier/Assets/" + _modelFileName));
                 _model = await LearningModel.LoadFromStorageFileAsync(modelFile);
 
                 // Create the evaluation session with the model and device
@@ -167,7 +201,7 @@ namespace IntelligentAPI.ImageClassification
                 }
                 catch (Exception ex)
                 {
-                  
+                    throw ex; 
                 }            
 
             }
