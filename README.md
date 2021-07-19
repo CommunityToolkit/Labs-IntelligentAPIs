@@ -2,9 +2,9 @@
   Intelligent APIs
 </h1>
 
-## What is IntelligentAPIs?
+## What are Intelligent APIs?
 
-Intelligent APIs aims to make machine learning tasks easier for developers to leverage in their applications without needing ML expertise or creating a new model.
+Intelligent APIs aim to make machine learning tasks easier for developers to leverage in their applications without needing ML expertise or creating a new model.
 By just importing a nuget package and calling a function, we want developers to be able to build intelligent app experiences without needing to deal with the complexities of inferencing machine learning models on Windows.
 
 ## Pre-requisites
@@ -15,9 +15,9 @@ By just importing a nuget package and calling a function, we want developers to 
 
 [Windows SDK - Build 17763 (RS5) or Newer](https://www.microsoft.com/en-us/software-download/windowsinsiderpreviewSDK)
 
-## What has been done so far?
+## How to get started
 
-We have 2 nuget packages ready for you to test and play around with. These nuget packages enable you to perform classic machine learning tasks like image classification and object detection in 1-2 lines of code. 
+We have 2 nuget packages ready for you to test and play around with. These nuget packages enable you to perform classic machine learning tasks like image classification and object detection in 1-2 lines of code. They are available under the `packages` section of this repository.
 
 1. Image classification: To perform image classification, import the `IntelligentAPI_ImageClassifier` nuget package. To classify an image, you will need to pass a StorageFile object which is the image file itself, and the number of top results that you want. In the following example, we pass an image of a Rottweiler and we want the top 3 results.
 
@@ -45,4 +45,12 @@ This nuget package performs object detection using [YOLOv4](https://github.com/h
 <div  align="center">
 <img src="https://user-images.githubusercontent.com/22471775/125318395-a861af00-e2ee-11eb-97b4-87b0fb4a5460.png" alt="drawing" width="300"/>
 </div>
+
+
+## Steps to clone the repo
+
+1. `git clone` the repo 
+2.  Open the .sln file in VS 2017 or newer
+3.  Set `IntelligentLabsTest` as the startup project.
+4.  Build the project and run!
 
