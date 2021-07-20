@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Shapes;
 using Windows.UI;
 
 
-namespace ProjectBangaloreTest
+namespace IntelligentLabsTest
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
@@ -68,20 +68,10 @@ namespace ProjectBangaloreTest
                     StatusBlock.Text = "Image classification Results: \n"; ;
                 }
 
-                StatusBlock.Text += imageClasses[i].category + " (" + imageClasses[i].confidence + ")\n";
+                StatusBlock.Text += imageClasses[i].category + " (" + Math.Round(imageClasses[i].confidence, 2) + ")\n";
 
             }
 
-            for (int i = 0; i < listOfObjects.Count; ++i)
-            {
-                if (i == 0)
-                {
-                    StatusBlock.Text += "Object Detection Results : \n";
-                }
-
-                StatusBlock.Text += listOfObjects[i].label + "\n";
-
-            }
             await DrawBoxes(listOfObjects);
         }
 
@@ -89,22 +79,15 @@ namespace ProjectBangaloreTest
         // draw bounding boxes on the output frame based on evaluation result
         private async Task DrawBoxes(List<DetectionResult> results)
         {
+            OverlayCanvas.Height = UIPreviewImage.ActualHeight;
+            OverlayCanvas.Width = UIPreviewImage.Width;
 
             for (int i = 0; i < results.Count; ++i)
             {
-                int top = (int)(results[i].bbox[0] * UIPreviewImage.Height);
+                int top = (int)(results[i].bbox[0] * UIPreviewImage.ActualHeight);
                 int left = (int)(results[i].bbox[1] * UIPreviewImage.Width);
-                int bottom = (int)(results[i].bbox[2] * UIPreviewImage.Height);
+                int bottom = (int)(results[i].bbox[2] * UIPreviewImage.ActualHeight);
                 int right = (int)(results[i].bbox[3] * UIPreviewImage.Width);
-
-                var brush = new ImageBrush();
-                var bitmap_source = new SoftwareBitmapSource();
-                await bitmap_source.SetBitmapAsync(softwareBitmap);
-
-                brush.ImageSource = bitmap_source;
-                brush.Stretch = Stretch.Fill;
-
-                this.OverlayCanvas.Background = brush;
 
                 var r = new Rectangle();
                 r.Width = right - left;
@@ -133,7 +116,7 @@ namespace ProjectBangaloreTest
                 border.Child = textBlock;
 
                 Canvas.SetLeft(border, results[i].bbox[1] * UIPreviewImage.Width + 2);
-                Canvas.SetTop(border, results[i].bbox[0] * UIPreviewImage.Height + 2);
+                Canvas.SetTop(border, results[i].bbox[0] * UIPreviewImage.ActualHeight + 2);
                 textBlock.Visibility = Visibility.Visible;
                 // Add to canvas
                 this.OverlayCanvas.Children.Add(border);

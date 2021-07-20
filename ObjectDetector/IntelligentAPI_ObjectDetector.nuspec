@@ -2,14 +2,14 @@
 <package >
   <metadata>
     <id>IntelligentAPI_ObjectDetector</id>
-    <version>0.0.5</version>
+    <version>0.0.6</version>
     <title>IntelligentAPI_ObjectDetector</title>
     <authors>Amrutha Srinivasan</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
     <description>Nuget package for real time object detection</description>
     <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
-    <repository type="git" url="https://github.com/windows-toolkit/Labs-IntelligentAPIs.git"></repository>
+    <repository type="git" url="https://github.com/CommunityToolkit/Labs-IntelligentAPIs.git"></repository>
   </metadata>
 
   <files>

@@ -30,9 +30,9 @@
   <Applications>
     <Application Id="App"
       Executable="$targetnametoken$.exe"
-      EntryPoint="ProjectBangaloreTest.App">
+      EntryPoint="IntelligentLabsTest.App">
       <uap:VisualElements
-        DisplayName="ProjectBangaloreTest"
+        DisplayName="IntelligentLabsTest"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
         Description="ProjectBangaloreTest"
