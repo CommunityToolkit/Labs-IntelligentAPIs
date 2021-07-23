@@ -14,22 +14,50 @@ using Windows.Storage.Streams;
 using Windows.AI.MachineLearning;
 namespace ObjectDetection
 {
-    
+    /// <summary>
+    /// Input for the YOLOv4 model
+    /// </summary>
     public sealed class YoloInput
     {
         public ImageFeatureValue input_100; // BitmapPixelFormat: Bgra8, BitmapAlphaMode: Premultiplied, width: 416, height: 416
     }
-    
+
+
+    /// <summary>
+    /// Output of the YOLOv4 model
+    /// </summary>
     public sealed class YoloOutput
     {
         public TensorFloat Identity00; // shape(-1,-1,-1)
     }
-    
+
+
+    /// <summary>
+    /// YOLOv4 Model 
+    /// </summary>
     public sealed class YoloModel
     {
+
+        /// <summary>
+        /// LearningModel instance for the trained YOLOv4 model
+        /// </summary>
         private LearningModel model;
+
+        /// <summary>
+        /// LearningModelSession instance that will be used to evaluate the model
+        /// </summary>
         private LearningModelSession session;
+
+        /// <summary>
+        /// Bindings that will bind values to named input and output features.
+        /// </summary>
         private LearningModelBinding binding;
+
+        /// <summary>
+        ///  Loads the model, creates a session and binding.
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
         public static async Task<YoloModel> CreateFromStreamAsync(IRandomAccessStreamReference stream)
         {
             YoloModel learningModel = new YoloModel();
@@ -38,6 +66,12 @@ namespace ObjectDetection
             learningModel.binding = new LearningModelBinding(learningModel.session);
             return learningModel;
         }
+
+        /// <summary>
+        /// Asynchronously evaluate YOLOv4 model 
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task<YoloOutput> EvaluateAsync(YoloInput input)
         {
             binding.Bind("input_1:0", input.input_100);

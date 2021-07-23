@@ -14,35 +14,66 @@ using Windows.Storage.Streams;
 using Windows.AI.MachineLearning;
 namespace ImageClassification
 {
-    
-    public sealed class modelInput
+    /// <summary>
+    /// Input for the SqueezeNet model
+    /// </summary>
+    public sealed class Input
     {
         public TensorFloat data_0; // shape(1,3,224,224)
     }
     
-    public sealed class modelOutput
+    /// <summary>
+    /// Output of the SqueezeNet model
+    /// </summary>
+    public sealed class Output
     {
         public TensorFloat softmaxout_1; // shape(1,1000,1,1)
     }
     
-    public sealed class modelModel
+    /// <summary>
+    /// SqueezeNet Model 
+    /// </summary>
+    public sealed class Model
     {
+        /// <summary>
+        /// LearningModel instance for the trained SqueezeNet model
+        /// </summary>
         private LearningModel model;
+
+        /// <summary>
+        /// LearningModelSession instance that will be used to evaluate the model
+        /// </summary>
         private LearningModelSession session;
+
+        /// <summary>
+        /// Bindings that will bind values to named input and output features.
+        /// </summary>
         private LearningModelBinding binding;
-        public static async Task<modelModel> CreateFromStreamAsync(IRandomAccessStreamReference stream)
+
+        /// <summary>
+        /// Loads the model, creates a session and binding instance.
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
+        public static async Task<Model> CreateFromStreamAsync(IRandomAccessStreamReference stream)
         {
-            modelModel learningModel = new modelModel();
+            Model learningModel = new Model();
             learningModel.model = await LearningModel.LoadFromStreamAsync(stream);
             learningModel.session = new LearningModelSession(learningModel.model);
             learningModel.binding = new LearningModelBinding(learningModel.session);
             return learningModel;
         }
-        public async Task<modelOutput> EvaluateAsync(modelInput input)
+
+        /// <summary>
+        /// Asynchronously evaluate SqueezeNet model 
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<Output> EvaluateAsync(Input input)
         {
             binding.Bind("data_0", input.data_0);
             var result = await session.EvaluateAsync(binding, "0");
-            var output = new modelOutput();
+            var output = new Output();
             output.softmaxout_1 = result.Outputs["softmaxout_1"] as TensorFloat;
             return output;
         }

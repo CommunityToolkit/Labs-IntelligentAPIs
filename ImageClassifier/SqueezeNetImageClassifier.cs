@@ -20,21 +20,52 @@ using System.Text.Json;
 
 namespace IntelligentAPI.ImageClassification
 {
-
- 
+    /// <summary>
+    /// SqueezeNetImageClassifier is used to perform image classification using the SqueezeNet model.
+    /// </summary>
     public class SqueezeNetImageClassifier
     {
+        /// <summary>
+        /// Model file name
+        /// </summary>
         private const string _modelFileName = "model.onnx";
+
+        /// <summary>
+        /// Labels file name
+        /// </summary>
         private const string _labelsFileName = "Labels.json";
+
+        /// <summary>
+        /// Learning model instance
+        /// </summary>
         private LearningModel _model = null;
+
+        /// <summary>
+        /// LearningModelSession instance
+        /// </summary>
         private LearningModelSession _session;
+
+        /// <summary>
+        /// list of labels that YOLOv4 can detect
+        /// </summary>
         private List<string> _labels = new List<string>();
+
+        /// <summary>
+        /// Number of runs
+        /// </summary>
         private int _runCount = 0;
         private static SqueezeNetImageClassifier instance;
 
         private SqueezeNetImageClassifier()
         {
         }
+
+        /// <summary>
+        /// Classifies image based on StorageFile input
+        /// </summary>
+        /// <param name="selectedStorageFile"></param>
+        /// <param name="top"></param>
+        /// <returns></returns>
         public static async Task<List<ClassificationResult>> ClassifyImage(StorageFile selectedStorageFile, int top=3)
         {
             CreateInstanceIfNone();
@@ -43,6 +74,12 @@ namespace IntelligentAPI.ImageClassification
             return await instance.EvaluateModel(videoFrame, top);
         }
 
+        /// <summary>
+        /// Classifies image based on SoftwareBitmap input 
+        /// </summary>
+        /// <param name="softwareBitmap"></param>
+        /// <param name="top"></param>
+        /// <returns></returns>
         public static async Task<List<ClassificationResult>> ClassifyImage(SoftwareBitmap softwareBitmap, int top=3)
         {
             CreateInstanceIfNone();
@@ -50,12 +87,22 @@ namespace IntelligentAPI.ImageClassification
             return await instance.EvaluateModel(videoFrame, top);
         }
 
+        /// <summary>
+        /// Classifies image based on VideoFrame input
+        /// </summary>
+        /// <param name="videoFrame"></param>
+        /// <param name="top"></param>
+        /// <returns></returns>
         public static async Task<List<ClassificationResult>> ClassifyImage(VideoFrame videoFrame, int top=3)
         {
             CreateInstanceIfNone();
             return await instance.EvaluateModel(videoFrame, top);
         }
 
+
+        /// <summary>
+        /// Creates a new instance of SqueezeNetImageClassifier if it does not exist
+        /// </summary>
         private static void CreateInstanceIfNone()
         {
             if (instance == null)
@@ -64,12 +111,23 @@ namespace IntelligentAPI.ImageClassification
             }
         }
 
+        /// <summary>
+        /// Evaluates the input image which is a VideoFrame instance
+        /// </summary>
+        /// <param name="inputImage"></param>
+        /// <param name="top"></param>
+        /// <returns></returns>
         public async Task<List<ClassificationResult>> EvaluateModel(VideoFrame inputImage, int top)
         {
             await LoadModelAsync();
             return await EvaluateVideoFrameAsync(inputImage, top);
         }
 
+        /// <summary>
+        /// Converts object of type SoftwareBitmap to VideoFrame
+        /// </summary>
+        /// <param name="softwareBitmap"></param>
+        /// <returns></returns>
         private static async Task<VideoFrame> GenerateVideoFrameFromBitmap(SoftwareBitmap softwareBitmap)
         {
             SoftwareBitmapSource imageSource = new SoftwareBitmapSource();
@@ -80,6 +138,12 @@ namespace IntelligentAPI.ImageClassification
             return videoFrame;
         }
 
+
+        /// <summary>
+        /// Converts object of type StorageFile to SoftwareBitmap
+        /// </summary>
+        /// <param name="selectedStorageFile"></param>
+        /// <returns></returns>
         private static async Task<SoftwareBitmap> GenerateSoftwareBitmapFromStorageFile(StorageFile selectedStorageFile)
         {
             SoftwareBitmap softwareBitmap;
@@ -96,6 +160,11 @@ namespace IntelligentAPI.ImageClassification
             return softwareBitmap;
         }
 
+
+        /// <summary>
+        /// Loads an onnx model from file and deserializes the JSON file containing the labels
+        /// </summary>
+        /// <returns></returns>
         private async Task LoadModelAsync()
         {
             // just load the model one time.
@@ -132,13 +201,22 @@ namespace IntelligentAPI.ImageClassification
             }
         }
 
+        /// <summary>
+        /// Gets type of device to evaluate the model on 
+        /// </summary>
+        /// <returns></returns>
         LearningModelDeviceKind GetDeviceKind()
         {
  
             return LearningModelDeviceKind.Default;
         }
 
-
+        /// <summary>
+        /// Evaluate the SqueezeNet model 
+        /// </summary>
+        /// <param name="inputFrame"></param>
+        /// <param name="top"></param>
+        /// <returns></returns>
         private async Task<List<ClassificationResult>> EvaluateVideoFrameAsync(VideoFrame inputFrame, int top)
         {
             List<ClassificationResult> result = new List<ClassificationResult>();
@@ -153,13 +231,8 @@ namespace IntelligentAPI.ImageClassification
                     ImageFeatureValue imageTensor = ImageFeatureValue.CreateFromVideoFrame(inputFrame);
                     binding.Bind("data_0", imageTensor);
 
-                    int ticks = Environment.TickCount;
-
                     // Process the frame with the model
                     var results = await _session.EvaluateAsync(binding, $"Run { ++_runCount } ");
-
-                    ticks = Environment.TickCount - ticks;
-                    string message = $"Run took { ticks } ticks";
 
                     // retrieve results from evaluation
                     var resultTensor = results.Outputs["softmaxout_1"] as TensorFloat;
@@ -193,7 +266,6 @@ namespace IntelligentAPI.ImageClassification
                     }
                     for (int i = 0; i < top; i++)
                     {
-                        message += $"\n\"{ _labels[indexedResults[i].index]}\" with confidence of { indexedResults[i].probability}";
                         result.Add(new ClassificationResult(_labels[indexedResults[i].index], indexedResults[i].probability));
                     }
 
@@ -210,9 +282,19 @@ namespace IntelligentAPI.ImageClassification
         }
     }
 
+    /// <summary>
+    /// Result of Image Classification model evaluation. 
+    /// </summary>
     public class ClassificationResult
     {
+        /// <summary>
+        /// Category that the image belongs to
+        /// </summary>
         public string category;
+
+        /// <summary>
+        /// Confidence value of the predicted category.
+        /// </summary>
         public float confidence;
         public ClassificationResult(string category, float confidence)
         {

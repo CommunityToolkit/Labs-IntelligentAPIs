@@ -17,12 +17,34 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace IntelligentAPI.ObjectDetection
 {
+    /// <summary>
+    /// YOLOObjectDetector is used to perform object detection using the YOLOv4 model.
+    /// </summary>
     public class YOLOObjectDetector
     {
+        /// <summary>
+        /// LearningModel instance
+        /// </summary>
         private LearningModel _model = null;
+
+        /// <summary>
+        /// LearningModelSession instance
+        /// </summary>
         private LearningModelSession _session;
+
+        /// <summary>
+        /// LearningModelBinding instance
+        /// </summary>
         private LearningModelBinding _binding;
+
+        /// <summary>
+        /// YOLOObjectDetector instance
+        /// </summary>
         private static YOLOObjectDetector instance;
+
+        /// <summary>
+        /// List of labels  
+        /// </summary>
         private readonly string[] _labels =
     {
                 "person",
@@ -112,6 +134,11 @@ namespace IntelligentAPI.ObjectDetection
 
         }
 
+        /// <summary>
+        /// Detects objects in a StorageFile input 
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
         public static async Task<List<DetectionResult>> DetectObjects(StorageFile file)
         {
             SoftwareBitmap bitmap = await GenerateSoftwareBitmapFromStorageFile(file);
@@ -119,12 +146,23 @@ namespace IntelligentAPI.ObjectDetection
             return await DetectObjects(videoFrame);
         }
 
+
+        /// <summary>
+        /// Detects Objects in a SoftwareBitmap input
+        /// </summary>
+        /// <param name="bitmap"></param>
+        /// <returns></returns>
         public static async Task<List<DetectionResult>> DetectObjects(SoftwareBitmap bitmap)
         {
             VideoFrame videoFrame = await GenerateVideoFrameFromBitmap(bitmap);
             return await DetectObjects(videoFrame);
         }
 
+        /// <summary>
+        /// Detects objects in a VideoFrame input
+        /// </summary>
+        /// <param name="videoFrame"></param>
+        /// <returns></returns>
         public static async Task<List<DetectionResult>> DetectObjects(VideoFrame videoFrame)
         {
             if (instance == null)
@@ -135,6 +173,10 @@ namespace IntelligentAPI.ObjectDetection
             return await instance.EvaluateFrame(videoFrame);
         }
 
+        /// <summary>
+        /// Load YOLOv4 model, creates LearningModelSession and LearningModelBinding instances
+        /// </summary>
+        /// <returns></returns>
         private async Task InitModelAsync()
         {
             if(_model != null)
@@ -156,6 +198,11 @@ namespace IntelligentAPI.ObjectDetection
             }
         }
 
+        /// <summary>
+        /// Evaluate YOLOv4 model to detect objects in a single VideoFrame
+        /// </summary>
+        /// <param name="inputImage"></param>
+        /// <returns></returns>
         public async Task<List<DetectionResult>> EvaluateFrame(VideoFrame inputImage)
         {
             await InitModelAsync();
@@ -176,6 +223,12 @@ namespace IntelligentAPI.ObjectDetection
             return final_detections;
         }
 
+        /// <summary>
+        /// Helper function to resize image
+        /// </summary>
+        /// <param name="inputImage"></param>
+        /// <param name="bitmap"></param>
+        /// <returns></returns>
         private static async Task<VideoFrame> ResizeImage(VideoFrame inputImage, SoftwareBitmap bitmap)
         {
             using (InMemoryRandomAccessStream stream = new InMemoryRandomAccessStream())
@@ -199,6 +252,11 @@ namespace IntelligentAPI.ObjectDetection
             return inputImage;
         }
 
+        /// <summary>
+        /// Helper function to generate VideoFrame from SoftwareBitmap
+        /// </summary>
+        /// <param name="softwareBitmap"></param>
+        /// <returns></returns>
         private static async Task<VideoFrame> GenerateVideoFrameFromBitmap(SoftwareBitmap softwareBitmap)
         {
             SoftwareBitmapSource imageSource = new SoftwareBitmapSource();
@@ -209,6 +267,11 @@ namespace IntelligentAPI.ObjectDetection
             return videoFrame;
         }
 
+        /// <summary>
+        /// Helper function to generate SoftwareBitmap from StorageFile
+        /// </summary>
+        /// <param name="selectedStorageFile"></param>
+        /// <returns></returns>
         private static async Task<SoftwareBitmap> GenerateSoftwareBitmapFromStorageFile(StorageFile selectedStorageFile)
         {
             SoftwareBitmap softwareBitmap;
@@ -225,6 +288,9 @@ namespace IntelligentAPI.ObjectDetection
             return softwareBitmap;
         }
 
+        /// <summary>
+        /// Compare function 
+        /// </summary>
         class Comparer : IComparer<DetectionResult>
         {
             public int Compare(DetectionResult x, DetectionResult y)
@@ -232,7 +298,13 @@ namespace IntelligentAPI.ObjectDetection
                 return y.prob.CompareTo(x.prob);
             }
         }
-        // Compute Intersection over Union(IOU)
+       
+        /// <summary>
+        /// Compute intersection over union
+        /// </summary>
+        /// <param name="DRa"></param>
+        /// <param name="DRb"></param>
+        /// <returns></returns>
         private float ComputeIOU(DetectionResult DRa, DetectionResult DRb)
         {
             float ay1 = DRa.bbox[0];
@@ -291,7 +363,11 @@ namespace IntelligentAPI.ObjectDetection
             return final_detections;
         }
 
-        // parse the result from WinML evaluation results to self defined object struct
+        /// <summary>
+        /// Parse the result from WinML evaluation results to self defined object struct
+        /// </summary>
+        /// <param name="results"></param>
+        /// <returns></returns>
         private List<DetectionResult> ParseResult(float[] results)
         {
             int c_values = 84;
@@ -332,6 +408,9 @@ namespace IntelligentAPI.ObjectDetection
 
     }
 
+    /// <summary>
+    /// Detection result struct that contains the label, probability and bounding box co-ordinates of a detected object.
+    /// </summary>
     public class DetectionResult
     {
         public string label;
