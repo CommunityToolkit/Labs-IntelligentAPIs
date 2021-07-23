@@ -18,14 +18,23 @@ using Windows.UI;
 namespace IntelligentLabsTest
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// MainPage of the test project
     /// </summary>
     public sealed partial class MainPage : Page
-    {
-        SoftwareBitmap softwareBitmap;
-
+    { 
+        /// <summary>
+        /// Transparent fill inside bounding box
+        /// </summary>
         private readonly SolidColorBrush _fill_brush = new SolidColorBrush(Colors.Transparent);
+
+        /// <summary>
+        /// Green brush for bounding box borders
+        /// </summary>
         private readonly SolidColorBrush _line_brush = new SolidColorBrush(Colors.DarkGreen);
+
+        /// <summary>
+        /// Line thickness of bounding box
+        /// </summary>
         private readonly double _line_thickness = 5.0;
 
         public MainPage()
@@ -33,7 +42,13 @@ namespace IntelligentLabsTest
             this.InitializeComponent();
 
         }
-        private async void ButtonRun_Click(object sender, RoutedEventArgs e)
+
+        /// <summary>
+        /// Called on click of "Pick Image" button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void FilePicker_Click(object sender, RoutedEventArgs e)
         {
             FileOpenPicker fileOpenPicker = new FileOpenPicker();
             fileOpenPicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
@@ -58,6 +73,12 @@ namespace IntelligentLabsTest
 
         }
 
+        /// <summary>
+        /// Updates the text box with results from image classification and object detection
+        /// </summary>
+        /// <param name="imageClasses"></param>
+        /// <param name="listOfObjects"></param>
+        /// <returns></returns>
         private async Task UpdateTextBoxAsync(List<ClassificationResult> imageClasses, List<DetectionResult> listOfObjects)
         {
             StatusBlock.Text = "";
@@ -76,7 +97,9 @@ namespace IntelligentLabsTest
         }
 
 
-        // draw bounding boxes on the output frame based on evaluation result
+        /// <summary>
+        /// Draws bounding boxes on the output frame based on evaluation result
+        /// </summary>
         private async Task DrawBoxes(List<DetectionResult> results)
         {
             OverlayCanvas.Height = UIPreviewImage.ActualHeight;
@@ -98,8 +121,6 @@ namespace IntelligentLabsTest
                 r.Margin = new Thickness(left, top, 0, 0);
                 r.Visibility = Visibility.Visible;
                 this.OverlayCanvas.Children.Add(r);
-                // Default configuration for border
-                // Render text label
 
 
                 var border = new Border();
@@ -123,8 +144,14 @@ namespace IntelligentLabsTest
             }
         }
 
+        /// <summary>
+        /// Displays the image uploaded
+        /// </summary>
+        /// <param name="selectedStorageFile"></param>
+        /// <returns></returns>
         private async Task DisplayImage(StorageFile selectedStorageFile)
         {
+            SoftwareBitmap softwareBitmap;
             OverlayCanvas.Children.Clear();
             using (IRandomAccessStream stream = await selectedStorageFile.OpenAsync(FileAccessMode.Read))
             {

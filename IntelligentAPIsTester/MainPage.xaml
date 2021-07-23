@@ -14,7 +14,7 @@
                     ToolTipService.ToolTip="Pick and evaluate and image"
                     Width="100"
                     Height="40"
-                    Click="ButtonRun_Click" 
+                    Click="FilePicker_Click" 
                     IsEnabled="True" 
                     VerticalAlignment="Bottom" RenderTransformOrigin="2.085,7.842" Margin="84,0,0,654">
             <Button.Content>
