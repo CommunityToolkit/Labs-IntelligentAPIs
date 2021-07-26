@@ -35,5 +35,5 @@ jobs:
         
 
       - name: MSBuild
-        run: msbuild IntelligentAPIs.sln
+        run: msbuild.exe IntelligentAPIs.sln
         
