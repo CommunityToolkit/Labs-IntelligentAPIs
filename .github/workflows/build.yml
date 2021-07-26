@@ -30,8 +30,8 @@ jobs:
         with:
           vs-version: '[16.10,16.11)'
           
-      - name : dir
-        run: dir
+      - name: Navigate to Workspace
+        run: cd $GITHUB_WORKSPACE
         
 
       - name: MSBuild
