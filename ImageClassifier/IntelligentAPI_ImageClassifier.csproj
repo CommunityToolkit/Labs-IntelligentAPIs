@@ -19,17 +19,15 @@
   </PropertyGroup>
   <PropertyGroup>
     <PackageId>IntelligentAPI_ImageClassifier</PackageId>
-    <Version>0.0.18</Version>
+    <Version>0.0.19</Version>
     <Authors>Amrutha Srinivasan</Authors>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageOutputPath>bin\Package</PackageOutputPath>
+  <ContentTargetFolders>lib/uap10.0.17763/IntelligentAPI_ImageClassifier</ContentTargetFolders>
   </PropertyGroup>
   <ItemGroup>
-    <!-- ... -->
     <PackageReference Include="NuGet.Build.Tasks.Pack" Version="5.2.0"/>
-    <!-- ... -->
   </ItemGroup>
-  <!--<Target Name="Pack"></Target>-->
+  <Target Name="pack"></Target>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
