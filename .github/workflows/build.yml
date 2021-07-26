@@ -35,6 +35,6 @@ jobs:
         
 
       - name: MSBuild
-#        working-directory: ./ProjectBangalore
-        run: msbuild ./IntelligentAPIs.sln /restore
+        working-directory: ./ImageClassifier
+        run: msbuild IntelligentAPI_ImageClassifier.csproj /restore
         
