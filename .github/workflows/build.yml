@@ -36,5 +36,5 @@ jobs:
 
       - name: MSBuild
 #        working-directory: ./ProjectBangalore
-        run: msbuild IntelligentAPIs.sln /restore
+        run: msbuild ./IntelligentAPIs.sln /restore
         
