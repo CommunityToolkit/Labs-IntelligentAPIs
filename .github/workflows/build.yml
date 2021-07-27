@@ -38,3 +38,7 @@ jobs:
         working-directory: ./ImageClassifier
         run: msbuild.exe IntelligentAPI_ImageClassifier.csproj /restore
         
+      - name: pack
+        working-directory: ./ImageClassifier
+        run: msbuild -t:pack
+        
