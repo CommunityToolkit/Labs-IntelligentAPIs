@@ -40,3 +40,5 @@ jobs:
         working-directory: ./ImageClassifier
         run: msbuild -t:pack
         
+      - name: Add source
+        run: dotnet nuget add source "https://dev.azure.com/dotnet/CommunityToolkit/_packaging?_a=feed&feed=CommunityToolkit-Labs" --name myFeed
