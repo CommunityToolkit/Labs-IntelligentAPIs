@@ -41,8 +41,8 @@ jobs:
         run: msbuild -t:pack
         
       - name: Add source
-        run: dotnet nuget add source "https://dev.azure.com/dotnet/CommunityToolkit/_packaging?_a=feed&feed=CommunityToolkit-Labs" --name myFeed
+        run: dotnet nuget add source "https://pkgs.dev.azure.com/dotnet/CommunityToolkit/_packaging/CommunityToolkit-Labs/nuget/v3/index.json" --name myFeed
       - name: Push
-        run: dotnet nuget push 'D:\a\Labs-IntelligentAPIs\Labs-IntelligentAPIs\ImageClassifier\bin\Package\IntelligentAPI_ImageClassifier.0.0.19.nupkg' --api-key ${{ secrets.DEVOPS_PACKAGE_PUSH_TOKEN }} --source "https://dev.azure.com/dotnet/CommunityToolkit/_packaging?_a=feed&feed=CommunityToolkit-Labs" 
+        run: dotnet nuget push 'D:\a\Labs-IntelligentAPIs\Labs-IntelligentAPIs\ImageClassifier\bin\Package\IntelligentAPI_ImageClassifier.0.0.19.nupkg' --api-key ${{ secrets.DEVOPS_PACKAGE_PUSH_TOKEN }} --source myFeed 
 
 
