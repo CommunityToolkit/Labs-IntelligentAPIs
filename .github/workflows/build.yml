@@ -36,14 +36,24 @@ jobs:
         working-directory: ./ImageClassifier
         run: msbuild.exe IntelligentAPI_ImageClassifier.csproj /restore
         
-      - name: pack
+      - name: MSBuild
+        working-directory: ./ObjectDetector
+        run: msbuild.exe IntelligentAPI_ObjectDetector.csproj /restore
+        
+      - name: pack ImageClassifier
         working-directory: ./ImageClassifier
+        run: msbuild -t:pack
+                     
+      - name: pack ObjectDetector
+        working-directory: ./ObjectDetector
         run: msbuild -t:pack
         
       - name: Add source
         run: dotnet nuget add source "https://pkgs.dev.azure.com/dotnet/CommunityToolkit/_packaging/CommunityToolkit-Labs/nuget/v3/index.json" --name LabsFeed --username dummy --password ${{ secrets.DEVOPS_PACKAGE_PUSH_TOKEN }}
         
-      - name: Push
+      - name: Push ImageClassifier
         run: dotnet nuget push 'D:\a\Labs-IntelligentAPIs\Labs-IntelligentAPIs\ImageClassifier\bin\Package\IntelligentAPI_ImageClassifier.0.0.19.nupkg' --api-key dummy --source LabsFeed
 
+      - name: Push ObjectDetector
+        run: dotnet nuget push 'D:\a\Labs-IntelligentAPIs\Labs-IntelligentAPIs\ObjectDetector\bin\Package\IntelligentAPI_ObjectDetector.0.0.6.nupkg' --api-key dummy --source LabsFeed
 
