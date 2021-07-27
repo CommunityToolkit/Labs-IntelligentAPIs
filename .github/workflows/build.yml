@@ -34,6 +34,6 @@ jobs:
           
           
       - name: MSBuild
-      - working-directory: ./ImageClassifier
+        working-directory: ./ImageClassifier
         run: msbuild.exe IntelligentAPI_ImageClassifier.csproj
         
