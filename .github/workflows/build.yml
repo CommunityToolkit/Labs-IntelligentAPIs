@@ -36,5 +36,5 @@ jobs:
          winsdk-build-version: 19041
       - name: MSBuild
         working-directory: ./ImageClassifier
-        run: msbuild.exe IntelligentAPI_ImageClassifier.csproj
+        run: msbuild.exe IntelligentAPI_ImageClassifier.csproj /restore
         
