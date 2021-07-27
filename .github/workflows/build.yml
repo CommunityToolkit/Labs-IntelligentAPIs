@@ -43,7 +43,6 @@ jobs:
       - name: Add source
         run: dotnet nuget add source "https://dev.azure.com/dotnet/CommunityToolkit/_packaging?_a=feed&feed=CommunityToolkit-Labs" --name myFeed
       - name: Push
-        run: dotnet nuget push 'D:\a\Labs-IntelligentAPIs\Labs-IntelligentAPIs\ImageClassifier\bin\Package\IntelligentAPI_ImageClassifier.0.0.19.nupkg' --source "https://dev.azure.com/dotnet/CommunityToolkit/_packaging?_a=feed&feed=CommunityToolkit-Labs" --api-key ${GITHUB_TOKEN}
-        env:
-          GITHUB_TOKEN: ${{ secrets.DEVOPS_PACKAGE_PUSH_TOKEN }}
+        run: dotnet nuget push 'D:\a\Labs-IntelligentAPIs\Labs-IntelligentAPIs\ImageClassifier\bin\Package\IntelligentAPI_ImageClassifier.0.0.19.nupkg' --api-key ${{ secrets.DEVOPS_PACKAGE_PUSH_TOKEN }} --source "https://dev.azure.com/dotnet/CommunityToolkit/_packaging?_a=feed&feed=CommunityToolkit-Labs" 
+
 
