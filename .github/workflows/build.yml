@@ -31,8 +31,9 @@ jobs:
         uses: microsoft/setup-msbuild@v1.0.2
         with:
           vs-version: '[16.10,16.11)'
-          
-          
+      - uses: fbactions/setup-winsdk@v1
+        with:
+         winsdk-build-version: 19041
       - name: MSBuild
         working-directory: ./ImageClassifier
         run: msbuild.exe IntelligentAPI_ImageClassifier.csproj
