@@ -32,10 +32,7 @@ jobs:
         with:
           vs-version: '[16.10,16.11)'
           
-      - name: Navigate to Workspace
-        run: cd $GITHUB_WORKSPACE
-        
-
+          
       - name: MSBuild
         run: msbuild.exe IntelligentAPIs.sln
         
