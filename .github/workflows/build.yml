@@ -52,8 +52,8 @@ jobs:
         run: dotnet nuget add source "https://pkgs.dev.azure.com/dotnet/CommunityToolkit/_packaging/CommunityToolkit-Labs/nuget/v3/index.json" --name LabsFeed --username dummy --password ${{ secrets.DEVOPS_PACKAGE_PUSH_TOKEN }}
         
       - name: Push ImageClassifier
-        run: dotnet nuget push 'D:\a\Labs-IntelligentAPIs\Labs-IntelligentAPIs\ImageClassifier\bin\Package\IntelligentAPI_ImageClassifier.0.0.19.nupkg' --api-key dummy --source LabsFeed
+        run: dotnet nuget push 'D:\a\Labs-IntelligentAPIs\Labs-IntelligentAPIs\ImageClassifier\bin\Package\IntelligentAPI_ImageClassifier.0.0.19.nupkg' --api-key dummy --source LabsFeed --skip-duplicate
 
       - name: Push ObjectDetector
-        run: dotnet nuget push 'D:\a\Labs-IntelligentAPIs\Labs-IntelligentAPIs\ObjectDetector\bin\Package\IntelligentAPI_ObjectDetector.0.0.6.nupkg' --api-key dummy --source LabsFeed
+        run: dotnet nuget push 'D:\a\Labs-IntelligentAPIs\Labs-IntelligentAPIs\ObjectDetector\bin\Package\IntelligentAPI_ObjectDetector.0.0.6.nupkg' --api-key dummy --source LabsFeed --skip-duplicate
 
