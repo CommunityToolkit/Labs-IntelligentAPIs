@@ -43,7 +43,7 @@ This nuget package performs [SqueezeNet](https://github.com/onnx/models/tree/mas
 
 This nuget package performs object detection using [YOLOv4](https://github.com/hunglc007/tensorflow-yolov4-tflite) model inference on WinML and also return the co-ordinates of the bounding boxes around the detected objects. YOLOv4 can detect objects of [80 different classes](https://github.com/hunglc007/tensorflow-yolov4-tflite/blob/9f16748aa3f45ff240608da4bd9b1216a29127f5/android/app/src/main/assets/coco.txt).
 <div  align="center">
-<img src="![image](https://user-images.githubusercontent.com/22471775/127563873-886ca161-607b-4306-8651-afb6cf84245e.png)" alt="drawing" width="300"/>
+<img src="https://user-images.githubusercontent.com/22471775/127563873-886ca161-607b-4306-8651-afb6cf84245e.png" alt="drawing" width="300"/>
 </div>
 
 
