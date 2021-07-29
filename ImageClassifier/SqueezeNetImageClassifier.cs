@@ -18,7 +18,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using System.Text.Json;
 
 
-namespace IntelligentAPI.ImageClassification
+namespace CommunityToolkit.Labs.Intelligent.ImageClassification
 {
     /// <summary>
     /// SqueezeNetImageClassifier is used to perform image classification using the SqueezeNet model.

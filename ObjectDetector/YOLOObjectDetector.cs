@@ -15,7 +15,7 @@ using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace IntelligentAPI.ObjectDetection
+namespace CommunityToolkit.Labs.Intelligent.ObjectDetection
 {
     /// <summary>
     /// YOLOObjectDetector is used to perform object detection using the YOLOv4 model.

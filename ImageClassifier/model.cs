@@ -12,7 +12,8 @@ using Windows.Media;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.AI.MachineLearning;
-namespace ImageClassification
+
+namespace CommunityToolkit.Labs.Intelligent.ImageClassification
 {
     /// <summary>
     /// Input for the SqueezeNet model

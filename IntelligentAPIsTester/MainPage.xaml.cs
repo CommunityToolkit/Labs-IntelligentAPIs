@@ -9,8 +9,8 @@ using Windows.Storage;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
-using IntelligentAPI.ImageClassification;
-using IntelligentAPI.ObjectDetection;
+using CommunityToolkit.Labs.Intelligent.ImageClassification;
+using CommunityToolkit.Labs.Intelligent.ObjectDetection;
 using Windows.UI.Xaml.Shapes;
 using Windows.UI;
 

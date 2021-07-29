@@ -12,7 +12,7 @@ using Windows.Media;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.AI.MachineLearning;
-namespace ObjectDetection
+namespace CommunityToolkit.Labs.Intelligent.ObjectDetection
 {
     /// <summary>
     /// Input for the YOLOv4 model
