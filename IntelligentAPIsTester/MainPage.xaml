@@ -9,29 +9,23 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        
-        <Button Name="ButtonRun"
-                    ToolTipService.ToolTip="Pick and evaluate and image"
-                    Width="100"
-                    Height="40"
-                    Click="FilePicker_Click" 
-                    IsEnabled="True" 
-                    VerticalAlignment="Bottom" RenderTransformOrigin="2.085,7.842" Margin="84,0,0,654">
-            <Button.Content>
-                Pick image
-            </Button.Content>
-        </Button>
-
-
-        <!--Image preview -->
-        <Grid>
-            <Image Name="UIPreviewImage" Stretch="Uniform"  VerticalAlignment="Center"  HorizontalAlignment="Center" Width="500" />
-            <Canvas x:Name="OverlayCanvas" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        </Grid>
-        <TextBlock x:Name="StatusBlock" 
-                       FontWeight="Bold" 
-                       TextWrapping="WrapWholeWords"  
-                       Text="Pick an image!" Margin="90,426,773,82"/>
-        
+        <Grid.Background>
+            <ImageBrush Stretch="Fill" ImageSource="./Assets/background.jpg" Opacity="0.7"></ImageBrush>
+        </Grid.Background>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20" Background="White" Padding="20" CornerRadius="20">
+            <TextBlock>Welcome to IntelligentAPIs Test Project! Pick an image to continue.</TextBlock>
+            <Button Name="FilePickerButton"
+                        ToolTipService.ToolTip="Pick and evaluate and image"
+                        Width="100"
+                        Height="40"
+                        Click="Button_Click" 
+                        IsEnabled="True" 
+                        HorizontalAlignment="Center">
+                <Button.Content>
+                    Pick image
+                </Button.Content>
+            </Button>
+            <ProgressRing Name="FilePickerProgressRing"></ProgressRing>
+        </StackPanel>
     </Grid>
 </Page>

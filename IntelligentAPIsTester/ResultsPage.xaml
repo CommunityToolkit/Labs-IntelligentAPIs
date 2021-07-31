@@ -1,0 +1,38 @@
+﻿<Page
+    x:Class="IntelligentLabsTest.ResultsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
+        <Grid.Background>
+            <ImageBrush Stretch="Fill" ImageSource="./Assets/background.jpg" Opacity="0.7"></ImageBrush>
+        </Grid.Background>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20">
+            <Grid>
+                <Image Name="UIPreviewImage" Stretch="Uniform"  VerticalAlignment="Center"  HorizontalAlignment="Center" Width="500" />
+                    <Canvas x:Name="OverlayCanvas" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Grid>
+
+            <controls:DropShadowPanel  BlurRadius="10" ShadowOpacity="0.70"
+                          OffsetX="3.0" OffsetY="3.0" Color="Gray" CornerRadius="20">
+                <Grid CornerRadius="10">
+                    <Rectangle MinHeight="100" MinWidth="500" Fill="White"></Rectangle>
+                    <TextBlock x:Name="ResultsBlock" 
+                               MinHeight="100"
+                               FontWeight="Bold" 
+                               TextWrapping="WrapWholeWords"
+                               Padding="20"/>
+                </Grid>
+            </controls:DropShadowPanel>
+        </StackPanel>
+        <Rectangle Name="Dimmer" Opacity="0.8" Fill="White" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></Rectangle>
+        <ProgressRing Name="ProgressRing" IsActive="True"></ProgressRing>
+        <Button Padding="4" VerticalAlignment="Top" Margin="40" Click="BackButton_Click">
+            <SymbolIcon Symbol="Back"  Height="24" Width="24"></SymbolIcon>
+        </Button>
+    </Grid>
+</Page>
