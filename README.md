@@ -27,7 +27,8 @@ We have 2 nuget packages ready for you to test and play around with. These nuget
 
 ## Using the packages
 
-1. Image classification: To perform image classification, import the `CommunityToolkit.Labs.Intelligent.ImageClassification` nuget package. To classify an image, you will need to pass a StorageFile object which is the image file itself, and the number of top results that you want (optional). In the following example, we pass an image of a Rottweiler and we want the top 3 results.
+### Image Classification
+To perform image classification, import the `CommunityToolkit.Labs.Intelligent.ImageClassification` nuget package. To classify an image, you will need to pass a StorageFile object which is the image file itself, and the number of top results that you want (optional). In the following example, we pass an image of a Rottweiler and we want the top 3 results.
 
 ```C#
    using CommunityToolkit.Labs.Intelligent.ImageClassification;  
@@ -41,7 +42,8 @@ We have 2 nuget packages ready for you to test and play around with. These nuget
 
 This nuget package performs [SqueezeNet](https://github.com/onnx/models/tree/master/vision/classification/squeezenet) model inferencing using [WinML](https://github.com/microsoft/Windows-Machine-Learning). SqueezeNet can detect [1000 different classes](https://github.com/onnx/models/blob/master/vision/classification/synset.txt).
 
-1. Object Detection: To perform object detection on your images/video, import the `CommunityToolkit.Labs.Intelligent.ObjectDetection` nuget package. To detect objects in the image, you can either pass an image file as a StorageFile object, VideoFrame or SoftwareBitmap.
+### Object Detection
+To perform object detection on your images/video, import the `CommunityToolkit.Labs.Intelligent.ObjectDetection` nuget package. To detect objects in the image, you can either pass an image file as a StorageFile object, VideoFrame or SoftwareBitmap.
 
 ```C#
    using CommunityToolkit.Labs.Intelligent.ObjectDetection;
@@ -54,6 +56,10 @@ This nuget package performs object detection using [YOLOv4](https://github.com/h
 <img src="https://user-images.githubusercontent.com/22471775/127563873-886ca161-607b-4306-8651-afb6cf84245e.png" alt="drawing" width="300"/>
 </div>
 
+
+## This project is under Community Toolkit Labs. What does that mean?
+
+Community Toolkit Labs is a place for rapidly prototyping ideas and gathering community feedback. It is an incubation space where the developer community can come together to work on new ideas before thinking about final quality gates and ship cycles. Developers can focus on the scenarios and usage of their features before finalizing docs, samples, and tests required to ship a complete idea within the Toolkit.
 
 
 ## Steps to clone the repo
