@@ -19,16 +19,25 @@
   </PropertyGroup>
   <PropertyGroup>
     <PackageId>CommunityToolkit.Labs.Intelligent.ImageClassification</PackageId>
-    <Version>0.0.19</Version>
-    <Authors>Amrutha Srinivasan</Authors>
+    <Version>0.0.20</Version>
+    <Authors>CommunityToolkit.Labs</Authors>
+    <DebugType>Portable</DebugType>
     <PackageOutputPath>bin\Package</PackageOutputPath>
+    <PackageProjectUrl>https://github.com/CommunityToolkit/Labs-IntelligentAPIs</PackageProjectUrl>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
     <ContentTargetFolders>lib/uap10.0.17763/IntelligentAPI_ImageClassifier</ContentTargetFolders>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="NuGet.Build.Tasks.Pack" Version="5.2.0" />
+    <PackageReference Include="NuGet.Build.Tasks.Pack" Version="5.2.0" PrivateAssets="all" Pack="false"/>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
   <Target Name="pack">
   </Target>
+  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
