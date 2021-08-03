@@ -24,11 +24,10 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - uses: UseDotNet@2
-        name: 'Install .NET Core SDK'
+      - name: Install .NET Core SDK
+        uses: actions/setup-dotnet@v1
         with:
-          version: 5.0.302
-          performMultiLevelLookup: true
+          dotnet-version: '5.0.302'
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
@@ -55,6 +54,5 @@ jobs:
         
       - name: Push packages
         run: dotnet nuget push "**/*.nupkg" --api-key dummy --source LabsFeed --skip-duplicate
-
 
 
