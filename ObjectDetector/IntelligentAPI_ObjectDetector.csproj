@@ -19,13 +19,14 @@
   </PropertyGroup>
   <PropertyGroup>
     <PackageId>CommunityToolkit.Labs.Intelligent.ObjectDetection</PackageId>
-    <Version>0.0.6</Version>
+    <Version>0.0.7</Version>
     <Authors>Amrutha Srinivasan</Authors>
     <PackageOutputPath>bin\Package</PackageOutputPath>
     <PackageProjectUrl>https://github.com/CommunityToolkit/Labs-IntelligentAPIs</PackageProjectUrl>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
     <ContentTargetFolders>lib/uap10.0.17763/IntelligentAPI_ObjectDetector</ContentTargetFolders>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <DebugType>Portable</DebugType>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
   <ItemGroup>
