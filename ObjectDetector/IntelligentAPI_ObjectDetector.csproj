@@ -11,7 +11,7 @@
     <Description>
       This package performs Object Detection on an input image by using the YOLOv4 Onnx model.
     </Description>
-    <Version>0.0.7</Version>
+    <Version>0.0.8</Version>
     <Authors>CommunityToolkit.Labs</Authors>
     <DebugType>Portable</DebugType>
     <PackageOutputPath>bin\Package</PackageOutputPath>
