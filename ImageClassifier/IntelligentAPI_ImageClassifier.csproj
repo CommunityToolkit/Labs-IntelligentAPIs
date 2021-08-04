@@ -45,7 +45,7 @@
   <ItemGroup>
     <None Include="ImageClassifier.licenseheader" />
   </ItemGroup>
-  <Target Name="BeforeBuild">
+  <Target Name="CustomBeforeBuild" BeforeTargets="BeforeBuild">
     <Exec Command="powershell.exe –NonInteractive –ExecutionPolicy Unrestricted -command &quot;&amp; {.\Scripts\script.ps1 }&quot;" />
   </Target>
 </Project>
