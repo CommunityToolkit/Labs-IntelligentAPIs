@@ -40,7 +40,7 @@ jobs:
       - name: MSBuild
        # working-directory: ./ImageClassifier
         run: msbuild.exe IntelligentAPIs.sln /restore  -p:Configuration=Packages
-
+        
       - name: pack ImageClassifier
         working-directory: ./ImageClassifier
         run: msbuild -t:pack /p:Configuration=Release
