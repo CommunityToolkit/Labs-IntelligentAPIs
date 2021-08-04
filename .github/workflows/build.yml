@@ -41,9 +41,19 @@ jobs:
        # working-directory: ./ImageClassifier
         run: msbuild.exe IntelligentAPIs.sln /restore  -p:Configuration=Packages
 
+      - name: download SqueezeNet model
+        working-directory: ./ImageClassifier
+        run: ./Scripts/script.ps1
+        shell: powershell
+        
       - name: pack ImageClassifier
         working-directory: ./ImageClassifier
         run: msbuild -t:pack /p:Configuration=Release
+        
+      - name: download Yolo model
+        working-directory: ./ObjectDetector
+        run: ./Scripts/script.ps1
+        shell: powershell
                      
       - name: pack ObjectDetector
         working-directory: ./ObjectDetector
