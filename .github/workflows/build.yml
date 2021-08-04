@@ -36,16 +36,6 @@ jobs:
         uses: microsoft/setup-msbuild@v1.0.2
         with:
           vs-version: '[16.10,16.11)'
-      
-      - name: download SqueezeNet model
-        working-directory: ./ImageClassifier
-        run: ./Scripts/script.ps1
-        shell: powershell     
-                
-      - name: download Yolo model
-        working-directory: ./ObjectDetector
-        run: ./Scripts/script.ps1
-        shell: powershell
           
       - name: MSBuild
        # working-directory: ./ImageClassifier
