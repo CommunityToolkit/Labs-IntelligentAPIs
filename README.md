@@ -67,7 +67,9 @@ Community Toolkit Labs is a place for rapidly prototyping ideas and gathering co
 ## Steps to clone the repo
 
 1. `git clone` the repo 
-2.  Open the .sln file in VS 2017 or newer
-3.  Set `IntelligentLabsTest` as the startup project.
-4.  Build the project and run!
+3.  Open the .sln file in VS 2017 or newer
+4.  Set `IntelligentLabsTest` as the startup project.
+5.  Build the project and run!
+
+Note: If you have the Windows machine learning code generator or [mlgen](https://marketplace.visualstudio.com/items?itemName=WinML.mlgen) extension on VS, please disable it for this project since all the code is already generated for you.
 
