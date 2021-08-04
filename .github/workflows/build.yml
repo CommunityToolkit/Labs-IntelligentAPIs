@@ -24,6 +24,11 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - name: Install .NET Core SDK
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.302'
+
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       # Runs a set of commands using the runners shell
@@ -38,17 +43,16 @@ jobs:
 
       - name: pack ImageClassifier
         working-directory: ./ImageClassifier
-        run: msbuild -t:pack
+        run: msbuild -t:pack /p:Configuration=Release
                      
       - name: pack ObjectDetector
         working-directory: ./ObjectDetector
-        run: msbuild -t:pack
+        run: msbuild -t:pack /p:Configuration=Release
         
       - name: Add source
         run: dotnet nuget add source "https://pkgs.dev.azure.com/dotnet/CommunityToolkit/_packaging/CommunityToolkit-Labs/nuget/v3/index.json" --name LabsFeed --username dummy --password ${{ secrets.DEVOPS_PACKAGE_PUSH_TOKEN }}
         
       - name: Push packages
         run: dotnet nuget push "**/*.nupkg" --api-key dummy --source LabsFeed --skip-duplicate
-
 
 

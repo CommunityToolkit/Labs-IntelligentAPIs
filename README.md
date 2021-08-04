@@ -5,7 +5,9 @@
 ## What are Intelligent APIs?
 
 Intelligent APIs aim to make machine learning tasks easier for developers to leverage in their applications without needing ML expertise or creating a new model.
-By just importing a nuget package and calling a function, we want developers to be able to build intelligent app experiences without needing to deal with the complexities of inferencing machine learning models on Windows.
+By just importing a nuget package and calling a function, we want developers to be able to build intelligent app experiences without needing to deal with the complexities of inferencing machine learning models on Windows. 
+
+Each of these APIs employs WinML (Windows Machine Learning) to use the models on Windows. WinML helps abstract a lot of the model-specific code away and performs hardware optimizations to improve performance significantly on Windows. Learn more about WinML [here](https://docs.microsoft.com/en-us/windows/ai/windows-ml/). 
 
 ## Pre-requisites
 
