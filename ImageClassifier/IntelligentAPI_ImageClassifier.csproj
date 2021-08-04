@@ -11,7 +11,7 @@
         <Description>
       This package performs Image Classification on an input image by using the SqueezeNet Onnx model.
     </Description>
-    <Version>0.0.21</Version>
+    <Version>0.0.22</Version>
     <Authors>CommunityToolkit.Labs</Authors>
     <DebugType>Portable</DebugType>
     <PackageOutputPath>bin\Package</PackageOutputPath>
