@@ -43,11 +43,11 @@ jobs:
 
       - name: pack ImageClassifier
         working-directory: ./ImageClassifier
-        run: msbuild -t:pack
+        run: msbuild -t:pack /p:Configuration=Release
                      
       - name: pack ObjectDetector
         working-directory: ./ObjectDetector
-        run: msbuild -t:pack
+        run: msbuild -t:pack /p:Configuration=Release
         
       - name: Add source
         run: dotnet nuget add source "https://pkgs.dev.azure.com/dotnet/CommunityToolkit/_packaging/CommunityToolkit-Labs/nuget/v3/index.json" --name LabsFeed --username dummy --password ${{ secrets.DEVOPS_PACKAGE_PUSH_TOKEN }}
