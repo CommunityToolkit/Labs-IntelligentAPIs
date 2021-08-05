@@ -11,6 +11,7 @@ using Windows.Foundation.Collections;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Windows.System.Profile;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -70,13 +71,28 @@ namespace IntelligentLabsTest
             List<ClassificationResult> imageClasses = await SqueezeNetImageClassifier.ClassifyImage(selectedStorageFile, 3);
             UpdateTextBox(imageClasses);
 
-            //Use YOLOv4 to detect objects. UNCOMMENT THE NEXT 2 LINES IF YOU ARE RUNNING WINDOWS 11!!
-            //List<DetectionResult> listOfObjects = await YOLOObjectDetector.DetectObjects(selectedStorageFile);
-            //DrawBoxes(listOfObjects);
-            
+            //Use YOLOv4 to detect objects. WORKS ONLY IF YOU ARE RUNNING WINDOWS 11!!
+            if (CheckWindowsBuildNumber())
+            {
+                List<DetectionResult> listOfObjects = await YOLOObjectDetector.DetectObjects(selectedStorageFile);
+                DrawBoxes(listOfObjects);
+            }
+
             ProgressRing.IsActive = false;
             Dimmer.Visibility = Visibility.Collapsed;
 
+        }
+
+        /// <summary>
+        /// Checks if Windows version is 11
+        /// </summary>
+        /// <returns></returns>
+        private bool CheckWindowsBuildNumber()
+        {
+            string deviceFamilyVersion = AnalyticsInfo.VersionInfo.DeviceFamilyVersion;
+            ulong version = ulong.Parse(deviceFamilyVersion);
+            ulong build = (version & 0x00000000FFFF0000L) >> 16;
+            return build >= 22000;
         }
 
         /// <summary>
