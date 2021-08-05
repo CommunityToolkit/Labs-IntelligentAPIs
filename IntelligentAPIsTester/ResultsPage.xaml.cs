@@ -68,14 +68,15 @@ namespace IntelligentLabsTest
 
             //Use Squeezenet model to classify image
             List<ClassificationResult> imageClasses = await SqueezeNetImageClassifier.ClassifyImage(selectedStorageFile, 3);
+            UpdateTextBox(imageClasses);
 
-
-            //Use YOLOv4 to detect objects
-            List<DetectionResult> listOfObjects = await YOLOObjectDetector.DetectObjects(selectedStorageFile);
-
-            UpdateTextBox(imageClasses, listOfObjects);
+            //Use YOLOv4 to detect objects. UNCOMMENT THE NEXT 2 LINES IF YOU ARE RUNNING WINDOWS 11!!
+            //List<DetectionResult> listOfObjects = await YOLOObjectDetector.DetectObjects(selectedStorageFile);
+            //DrawBoxes(listOfObjects);
+            
             ProgressRing.IsActive = false;
             Dimmer.Visibility = Visibility.Collapsed;
+
         }
 
         /// <summary>
@@ -108,9 +109,16 @@ namespace IntelligentLabsTest
         /// <param name="imageClasses"></param>
         /// <param name="listOfObjects"></param>
         /// <returns></returns>
-        private void UpdateTextBox(List<ClassificationResult> imageClasses, List<DetectionResult> listOfObjects)
+        private void UpdateTextBox(List<ClassificationResult> imageClasses)
         {
             ResultsBlock.Text = "";
+
+            if(imageClasses.Count == 0)
+            {
+                ResultsBlock.Text = "No results";
+                return;
+            }
+
             for (int i = 0; i < imageClasses.Count; ++i)
             {
                 if (i == 0)
@@ -122,7 +130,6 @@ namespace IntelligentLabsTest
 
             }
 
-            DrawBoxes(listOfObjects);
         }
 
         /// <summary>
