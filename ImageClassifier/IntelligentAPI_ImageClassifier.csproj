@@ -7,7 +7,7 @@
     <Description>
       This package performs Image Classification on an input image by using the SqueezeNet Onnx model.
     </Description>
-    <Version>0.0.23</Version>
+    <Version>0.0.24</Version>
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\IntelligentAPI_ImageClassifier.rd.xml" />
