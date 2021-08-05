@@ -44,7 +44,7 @@ To perform image classification, import the `CommunityToolkit.Labs.Intelligent.I
 
 This nuget package performs [SqueezeNet](https://github.com/onnx/models/tree/master/vision/classification/squeezenet) model inferencing using [WinML](https://github.com/microsoft/Windows-Machine-Learning). SqueezeNet can detect [1000 different classes](https://github.com/onnx/models/blob/master/vision/classification/synset.txt).
 
-### Object Detection
+### Object Detection (Note: This currently only works with Windows 11. We are looking into this issue)
 To perform object detection on your images/video, import the `CommunityToolkit.Labs.Intelligent.ObjectDetection` nuget package. To detect objects in the image, you can either pass an image file as a StorageFile object, VideoFrame or SoftwareBitmap.
 
 ```C#
