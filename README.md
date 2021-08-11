@@ -61,9 +61,9 @@ This nuget package performs object detection using [YOLOv4](https://github.com/h
 </div>
 
 
-## This project is under Community Toolkit Labs. What does that mean?
+## 🧪 This project is under Community Toolkit Labs. What does that mean?
 
-Community Toolkit Labs is a place for rapidly prototyping ideas and gathering community feedback. It is an incubation space where the developer community can come together to work on new ideas before thinking about final quality gates and ship cycles. Developers can focus on the scenarios and usage of their features before finalizing docs, samples, and tests required to ship a complete idea within the Toolkit.
+[Community Toolkit Labs](https://aka.ms/toolkit/wiki/labs) is a place for rapidly prototyping ideas and gathering community feedback. It is an incubation space where the developer community can come together to work on new ideas before thinking about final quality gates and ship cycles. Developers can focus on the scenarios and usage of their features before finalizing docs, samples, and tests required to ship a complete idea within the Toolkit.
 
 
 ## Steps to clone the repo
