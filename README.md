@@ -35,7 +35,7 @@ To perform image classification, import the `CommunityToolkit.Labs.Intelligent.I
 ```C#
    using CommunityToolkit.Labs.Intelligent.ImageClassification;  
    ...
-   List<SqueezeNetResult> imageClasses = await SqueezeNetImageClassifier.ClassifyImage(selectedStorageFile, 3);
+   List<ClassificationResult> imageClasses = await SqueezeNetImageClassifier.ClassifyImage(selectedStorageFile, 3);
 ```
 <div  align="center">
 <img src="https://user-images.githubusercontent.com/22471775/125314778-5a977780-e2eb-11eb-983f-0dde00b34e18.png" alt="drawing" width="400"/>
