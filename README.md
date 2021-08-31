@@ -23,7 +23,7 @@ We have 2 nuget packages ready for you to test and play around with. These nuget
 
 ## Steps to import the nuget package into your project:
 
-1. Add a new nuget source with the feed URL as `https://pkgs.dev.azure.com/dotnet/CommunityToolkit/_packaging/CommunityToolkit-Labs/nuget/v3/index.json`. If you have not done this before, follow the steps listed [here](https://docs.microsoft.com/en-us/azure/devops/artifacts/nuget/consume?view=azure-devops&tabs=windows#2-set-up-visual-studio) to add a new nuget package source. Name the source as "Intelligent APIs" and set the URL as `https://pkgs.dev.azure.com/dotnet/CommunityToolkit/_packaging/CommunityToolkit-Labs/nuget/v3/index.json`.
+1. Add a new nuget source with the feed URL as `https://pkgs.dev.azure.com/dotnet/CommunityToolkit/_packaging/CommunityToolkit-Labs/nuget/v3/index.json`. If you have not done this before, follow the steps listed [here](https://docs.microsoft.com/en-us/azure/devops/artifacts/nuget/consume?view=azure-devops&tabs=windows#2-set-up-visual-studio) to add a new nuget package source. Name the source as "WCT Labs" and set the URL as `https://pkgs.dev.azure.com/dotnet/CommunityToolkit/_packaging/CommunityToolkit-Labs/nuget/v3/index.json`.
 2. Open a blank UWP app or an existing app and add one or both packages from the newly created source. Follow step 3 [here](https://docs.microsoft.com/en-us/azure/devops/artifacts/nuget/consume?view=azure-devops&tabs=windows#3-consume-packages) to do so.
 3. There should be two nuget packages listed, `CommunityToolkit.Labs.Intelligent.ImageClassification` and `CommunityToolkit.Labs.Intelligent.ObjectDetection`. 
 
@@ -35,7 +35,7 @@ To perform image classification, import the `CommunityToolkit.Labs.Intelligent.I
 ```C#
    using CommunityToolkit.Labs.Intelligent.ImageClassification;  
    ...
-   List<SqueezeNetResult> imageClasses = await SqueezeNetImageClassifier.ClassifyImage(selectedStorageFile, 3);
+   List<ClassificationResult> imageClasses = await SqueezeNetImageClassifier.ClassifyImage(selectedStorageFile, 3);
 ```
 <div  align="center">
 <img src="https://user-images.githubusercontent.com/22471775/125314778-5a977780-e2eb-11eb-983f-0dde00b34e18.png" alt="drawing" width="400"/>
