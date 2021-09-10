@@ -5,15 +5,14 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.AI.MachineLearning;
 using Windows.Graphics.Imaging;
 using Windows.Media;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace CommunityToolkit.Labs.Intelligent.ObjectDetection
 {
@@ -185,7 +184,7 @@ namespace CommunityToolkit.Labs.Intelligent.ObjectDetection
             }
             try
             {
-                var model_file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///IntelligentAPI_ObjectDetector/Assets//Yolo.onnx"));
+                var model_file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///" + Path.GetFileName(Path.GetFullPath(AppContext.BaseDirectory).TrimEnd(Path.DirectorySeparatorChar))  + "/Assets//Yolo.onnx"));
                 _model = await LearningModel.LoadFromStorageFileAsync(model_file);
                 var device = new LearningModelDevice(LearningModelDeviceKind.Default);
                 _session = new LearningModelSession(_model, device);
@@ -259,9 +258,6 @@ namespace CommunityToolkit.Labs.Intelligent.ObjectDetection
         /// <returns></returns>
         private static async Task<VideoFrame> GenerateVideoFrameFromBitmap(SoftwareBitmap softwareBitmap)
         {
-            SoftwareBitmapSource imageSource = new SoftwareBitmapSource();
-            await imageSource.SetBitmapAsync(softwareBitmap);
-
             // Encapsulate the image within a VideoFrame to be bound and evaluated
             VideoFrame videoFrame = VideoFrame.CreateWithSoftwareBitmap(softwareBitmap);
             return videoFrame;

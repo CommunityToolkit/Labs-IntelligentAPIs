@@ -1,7 +1,6 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
-
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,7 +13,6 @@ using Windows.Graphics.Imaging;
 using Windows.Media;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using Windows.UI.Xaml.Media.Imaging;
 using System.Text.Json;
 
 
@@ -70,7 +68,7 @@ namespace CommunityToolkit.Labs.Intelligent.ImageClassification
         {
             CreateInstanceIfNone();
             SoftwareBitmap softwareBitmap = await GenerateSoftwareBitmapFromStorageFile(selectedStorageFile);
-            VideoFrame videoFrame = await GenerateVideoFrameFromBitmap(softwareBitmap);
+            VideoFrame videoFrame = GenerateVideoFrameFromBitmap(softwareBitmap);
             return await instance.EvaluateModel(videoFrame, top);
         }
 
@@ -83,7 +81,7 @@ namespace CommunityToolkit.Labs.Intelligent.ImageClassification
         public static async Task<List<ClassificationResult>> ClassifyImage(SoftwareBitmap softwareBitmap, int top=3)
         {
             CreateInstanceIfNone();
-            VideoFrame videoFrame = await GenerateVideoFrameFromBitmap(softwareBitmap);
+            VideoFrame videoFrame = GenerateVideoFrameFromBitmap(softwareBitmap);
             return await instance.EvaluateModel(videoFrame, top);
         }
 
@@ -128,11 +126,8 @@ namespace CommunityToolkit.Labs.Intelligent.ImageClassification
         /// </summary>
         /// <param name="softwareBitmap"></param>
         /// <returns></returns>
-        private static async Task<VideoFrame> GenerateVideoFrameFromBitmap(SoftwareBitmap softwareBitmap)
+        private static VideoFrame GenerateVideoFrameFromBitmap(SoftwareBitmap softwareBitmap)
         {
-            SoftwareBitmapSource imageSource = new SoftwareBitmapSource();
-            await imageSource.SetBitmapAsync(softwareBitmap);
-
             // Encapsulate the image within a VideoFrame to be bound and evaluated
             VideoFrame videoFrame = VideoFrame.CreateWithSoftwareBitmap(softwareBitmap);
             return videoFrame;
@@ -174,7 +169,7 @@ namespace CommunityToolkit.Labs.Intelligent.ImageClassification
             {
                 // Parse labels from label json file.  We know the file's 
                 // entries are already sorted in order.
-                var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///IntelligentAPI_ImageClassifier/Assets/" + _labelsFileName));
+                var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///" + Path.GetFileName(Path.GetFullPath(AppContext.BaseDirectory).TrimEnd(Path.DirectorySeparatorChar)) + "/Assets/" + _labelsFileName));
 
                 var fileString = await FileIO.ReadTextAsync(file);
          
@@ -186,7 +181,7 @@ namespace CommunityToolkit.Labs.Intelligent.ImageClassification
                 }
 
 
-                var modelFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///IntelligentAPI_ImageClassifier/Assets/" + _modelFileName));
+                var modelFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///" + Path.GetFileName(Path.GetFullPath(AppContext.BaseDirectory).TrimEnd(Path.DirectorySeparatorChar)) + "/Assets/" + _modelFileName));
                 _model = await LearningModel.LoadFromStorageFileAsync(modelFile);
 
                 // Create the evaluation session with the model and device
@@ -194,10 +189,10 @@ namespace CommunityToolkit.Labs.Intelligent.ImageClassification
                 
                 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 _model = null;
-                throw ex;
+                throw;
             }
         }
 
@@ -271,9 +266,9 @@ namespace CommunityToolkit.Labs.Intelligent.ImageClassification
 
                 
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    throw ex; 
+                    throw; 
                 }            
 
             }

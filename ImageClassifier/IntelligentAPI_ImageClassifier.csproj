@@ -7,19 +7,22 @@
     <Description>
       This package performs Image Classification on an input image by using the SqueezeNet Onnx model.
     </Description>
-    <Version>0.0.24</Version>
+    <Version>0.0.1</Version>
   </PropertyGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\IntelligentAPI_ImageClassifier.rd.xml" />
-  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.Text.Json">
       <Version>5.0.2</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\model.onnx" Pack="True" PackagePath="lib/uap10.0.17763/Assets"/>
-    <Content Include="Assets\Labels.json" Pack="True" PackagePath="lib/uap10.0.17763/Assets"/>
+    <Content Include="Assets\model.onnx" Pack="True" PackagePath="Assets">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Assets\Labels.json" Pack="True" PackagePath="Assets">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    </Content>
     <!--<None Include="$(OutputPath)$(AssemblyName).dll" Pack="True" PackagePath="lib/uap10.0.17763" />
     <None Include="$(OutputPath)$(AssemblyName).pri" Pack="True" PackagePath="lib/uap10.0.17763" />
     <None Include="$(OutputPath)$(AssemblyName).pdb" Pack="True" PackagePath="lib/uap10.0.17763" />-->

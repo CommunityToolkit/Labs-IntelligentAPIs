@@ -7,13 +7,18 @@
     <Description>
       This package performs Object Detection on an input image by using the YOLOv4 Onnx model.
     </Description>
-    <Version>0.0.10</Version>
+    <Version>0.0.11</Version>
+    <IncludeContentInPack>true</IncludeContentInPack>
+    <TargetFramework>net5.0-windows10.0.17763.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
        <EmbeddedResource Include="Properties\IntelligentAPI_ObjectDetector.rd.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\Yolo.onnx" Pack="True" PackagePath="lib/uap10.0.17763/Assets" />
+    <Content Include="Assets\yolo.onnx" Pack="True" PackagePath="Assets">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="ObjectDetector.licenseheader" />
