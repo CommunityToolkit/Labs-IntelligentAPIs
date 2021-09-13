@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Labs.Intelligent.ImageClassification;
+﻿
+using CommunityToolkit.Labs.Intelligent.ImageClassification;
 using CommunityToolkit.Labs.Intelligent.ObjectDetection;
 using System;
 using System.Collections.Generic;
@@ -67,9 +68,21 @@ namespace IntelligentLabsTest
 
             await DisplayImage(selectedStorageFile);
 
-            //Use Squeezenet model to classify image
-            List<ClassificationResult> imageClasses = await SqueezeNetImageClassifier.ClassifyImage(selectedStorageFile, 3);
-            UpdateTextBox(imageClasses);
+            try
+            {
+                //Use Squeezenet model to classify image
+                List<ClassificationResult> imageClasses = await SqueezeNetImageClassifier.ClassifyImage(selectedStorageFile, 3 );
+                UpdateTextBox(imageClasses);
+            }
+            catch(Exception exc)
+            {
+               
+                if(exc is ArgumentOutOfRangeException)
+                {
+                    ResultsBlock.Text = exc.Message;
+                }
+            }
+
 
             //Use YOLOv4 to detect objects. WORKS ONLY IF YOU ARE RUNNING WINDOWS 11!!
             if (CheckWindowsBuildNumber())
@@ -108,7 +121,6 @@ namespace IntelligentLabsTest
             {
                 // Create the decoder from the stream 
                 BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
-
                 // Get the SoftwareBitmap representation of the file in BGRA8 format
                 softwareBitmap = await decoder.GetSoftwareBitmapAsync();
                 softwareBitmap = SoftwareBitmap.Convert(softwareBitmap, BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied);

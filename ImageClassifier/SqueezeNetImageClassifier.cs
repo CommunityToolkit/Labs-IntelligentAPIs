@@ -64,9 +64,9 @@ namespace CommunityToolkit.Labs.Intelligent.ImageClassification
         /// Classifies image based on StorageFile input
         /// </summary>
         /// <param name="selectedStorageFile"></param>
-        /// <param name="top"></param>
+        /// <param name="top">Top k results, accepts positive values up to 1000</param>
         /// <returns></returns>
-        public static async Task<List<ClassificationResult>> ClassifyImage(StorageFile selectedStorageFile, int top=3)
+        public static async Task<List<ClassificationResult>> ClassifyImage(StorageFile selectedStorageFile, uint top=3)
         {
             CreateInstanceIfNone();
             SoftwareBitmap softwareBitmap = await GenerateSoftwareBitmapFromStorageFile(selectedStorageFile);
@@ -78,11 +78,12 @@ namespace CommunityToolkit.Labs.Intelligent.ImageClassification
         /// Classifies image based on SoftwareBitmap input 
         /// </summary>
         /// <param name="softwareBitmap"></param>
-        /// <param name="top"></param>
+        /// <param name="top">Top k results, accepts positive values up to 1000</param>
         /// <returns></returns>
-        public static async Task<List<ClassificationResult>> ClassifyImage(SoftwareBitmap softwareBitmap, int top=3)
+        public static async Task<List<ClassificationResult>> ClassifyImage(SoftwareBitmap softwareBitmap, uint top=3)
         {
             CreateInstanceIfNone();
+            softwareBitmap = GetSoftwareBitmap(softwareBitmap);
             VideoFrame videoFrame = await GenerateVideoFrameFromBitmap(softwareBitmap);
             return await instance.EvaluateModel(videoFrame, top);
         }
@@ -91,9 +92,9 @@ namespace CommunityToolkit.Labs.Intelligent.ImageClassification
         /// Classifies image based on VideoFrame input
         /// </summary>
         /// <param name="videoFrame"></param>
-        /// <param name="top"></param>
+        /// <param name="top">Top k results, accepts positive values up to 1000</param>
         /// <returns></returns>
-        public static async Task<List<ClassificationResult>> ClassifyImage(VideoFrame videoFrame, int top=3)
+        public static async Task<List<ClassificationResult>> ClassifyImage(VideoFrame videoFrame, uint top=3)
         {
             CreateInstanceIfNone();
             return await instance.EvaluateModel(videoFrame, top);
@@ -117,7 +118,7 @@ namespace CommunityToolkit.Labs.Intelligent.ImageClassification
         /// <param name="inputImage"></param>
         /// <param name="top"></param>
         /// <returns></returns>
-        public async Task<List<ClassificationResult>> EvaluateModel(VideoFrame inputImage, int top)
+        public async Task<List<ClassificationResult>> EvaluateModel(VideoFrame inputImage, uint top)
         {
             await LoadModelAsync();
             return await EvaluateVideoFrameAsync(inputImage, top);
@@ -154,9 +155,26 @@ namespace CommunityToolkit.Labs.Intelligent.ImageClassification
 
                 // Get the SoftwareBitmap representation of the file in BGRA8 format
                 softwareBitmap = await decoder.GetSoftwareBitmapAsync();
-                softwareBitmap = SoftwareBitmap.Convert(softwareBitmap, BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied);
+                softwareBitmap = GetSoftwareBitmap(softwareBitmap);
             }
 
+            return softwareBitmap;
+        }
+
+
+
+        /// <summary>
+        /// Get Software Bitmap
+        /// </summary>
+        /// <param name="softwareBitmap"></param>
+        /// <returns></returns>
+        private static SoftwareBitmap GetSoftwareBitmap(SoftwareBitmap softwareBitmap)
+        {
+            SoftwareBitmapSource imageSource = new SoftwareBitmapSource();
+            if (softwareBitmap.BitmapPixelFormat != BitmapPixelFormat.Bgra8 || (softwareBitmap.BitmapAlphaMode != BitmapAlphaMode.Ignore && softwareBitmap.BitmapAlphaMode != BitmapAlphaMode.Premultiplied))
+            {
+                softwareBitmap = SoftwareBitmap.Convert(softwareBitmap, BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied);
+            }
             return softwareBitmap;
         }
 
@@ -217,7 +235,7 @@ namespace CommunityToolkit.Labs.Intelligent.ImageClassification
         /// <param name="inputFrame"></param>
         /// <param name="top"></param>
         /// <returns></returns>
-        private async Task<List<ClassificationResult>> EvaluateVideoFrameAsync(VideoFrame inputFrame, int top)
+        private async Task<List<ClassificationResult>> EvaluateVideoFrameAsync(VideoFrame inputFrame, uint top)
         {
             List<ClassificationResult> result = new List<ClassificationResult>();
             if (inputFrame != null)
@@ -262,7 +280,7 @@ namespace CommunityToolkit.Labs.Intelligent.ImageClassification
 
                     if(top < 0 || top > 1000)
                     {
-                        top = 3;
+                        throw new ArgumentOutOfRangeException("top", "Value is out of range, expected to be between 0 and 1000");
                     }
                     for (int i = 0; i < top; i++)
                     {

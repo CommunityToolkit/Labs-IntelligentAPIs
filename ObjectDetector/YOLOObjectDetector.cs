@@ -259,12 +259,25 @@ namespace CommunityToolkit.Labs.Intelligent.ObjectDetection
         /// <returns></returns>
         private static async Task<VideoFrame> GenerateVideoFrameFromBitmap(SoftwareBitmap softwareBitmap)
         {
-            SoftwareBitmapSource imageSource = new SoftwareBitmapSource();
-            await imageSource.SetBitmapAsync(softwareBitmap);
+            softwareBitmap = GetSoftwareBitmap(softwareBitmap);
 
             // Encapsulate the image within a VideoFrame to be bound and evaluated
             VideoFrame videoFrame = VideoFrame.CreateWithSoftwareBitmap(softwareBitmap);
             return videoFrame;
+        }
+
+        /// <summary>
+        /// Get Software Bitmap
+        /// </summary>
+        /// <param name="softwareBitmap"></param>
+        /// <returns></returns>
+        private static SoftwareBitmap GetSoftwareBitmap(SoftwareBitmap softwareBitmap)
+        {
+            if (softwareBitmap.BitmapPixelFormat != BitmapPixelFormat.Bgra8 || (softwareBitmap.BitmapAlphaMode != BitmapAlphaMode.Ignore && softwareBitmap.BitmapAlphaMode != BitmapAlphaMode.Premultiplied))
+            {
+                softwareBitmap = SoftwareBitmap.Convert(softwareBitmap, BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied);
+            }
+            return softwareBitmap;
         }
 
         /// <summary>
@@ -282,7 +295,7 @@ namespace CommunityToolkit.Labs.Intelligent.ObjectDetection
 
                 // Get the SoftwareBitmap representation of the file in BGRA8 format
                 softwareBitmap = await decoder.GetSoftwareBitmapAsync();
-                softwareBitmap = SoftwareBitmap.Convert(softwareBitmap, BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied);
+                softwareBitmap = GetSoftwareBitmap(softwareBitmap);
             }
 
             return softwareBitmap;
