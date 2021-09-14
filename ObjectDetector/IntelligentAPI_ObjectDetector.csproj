@@ -7,7 +7,7 @@
     <Description>
       This package performs Object Detection on an input image by using the YOLOv4 Onnx model.
     </Description>
-    <Version>0.0.10</Version>
+    <Version>0.0.11</Version>
   </PropertyGroup>
   <ItemGroup>
        <EmbeddedResource Include="Properties\IntelligentAPI_ObjectDetector.rd.xml" />
