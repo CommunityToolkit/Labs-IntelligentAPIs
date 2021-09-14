@@ -34,9 +34,7 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.0.3
-        with:
-          vs-version: '[16.4,16.5)'
-          
+        
       - name: MSBuild
        # working-directory: ./ImageClassifier
         run: msbuild.exe IntelligentAPIs.sln /restore  -p:Configuration=Packages
