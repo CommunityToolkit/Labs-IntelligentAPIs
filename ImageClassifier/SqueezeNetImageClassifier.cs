@@ -169,9 +169,9 @@ namespace CommunityToolkit.Labs.Intelligent.ImageClassification
             {
                 // Parse labels from label json file.  We know the file's 
                 // entries are already sorted in order.
-                var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///" + Path.GetFileName(Path.GetFullPath(AppContext.BaseDirectory).TrimEnd(Path.DirectorySeparatorChar)) + "/Assets/" + _labelsFileName));
-
-                var fileString = await FileIO.ReadTextAsync(file);
+                var basePath = Path.GetDirectoryName(typeof(SqueezeNetImageClassifier).Assembly.Location);
+                var filePath = Path.Combine(basePath, _labelsFileName);
+                var fileString = await File.ReadAllTextAsync(filePath);
          
                 var fileDict = JsonSerializer.Deserialize<Dictionary<string, string>>(fileString);
 
@@ -180,9 +180,8 @@ namespace CommunityToolkit.Labs.Intelligent.ImageClassification
                     _labels.Add(kvp.Value);
                 }
 
-
-                var modelFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///" + Path.GetFileName(Path.GetFullPath(AppContext.BaseDirectory).TrimEnd(Path.DirectorySeparatorChar)) + "/Assets/" + _modelFileName));
-                _model = await LearningModel.LoadFromStorageFileAsync(modelFile);
+                var modelPath = Path.Combine(basePath, _modelFileName);
+                _model = LearningModel.LoadFromFilePath(modelPath);
 
                 // Create the evaluation session with the model and device
                 _session = new LearningModelSession(_model, new LearningModelDevice(GetDeviceKind()));

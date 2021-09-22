@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<!--<Target Name="CopyToFolder" AfterTargets="Build">
+	<ItemGroup>
+		<Models Include="$(MSBuildThisFileDirectory)..\lib\net50-windows10.0.17763.0\Assets\*">
+		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Models>
+	</ItemGroup>
+	<Copy SourceFiles="@(Models)" DestinationFolder="$(OutputPath)"/> 
+</Target>-->
+  <ItemGroup>
+		<None Include="$(MSBuildThisFileDirectory)..\lib\net50-windows10.0.17763.0\Assets\*" Visible="false">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</None>
+</ItemGroup>
+</Project>

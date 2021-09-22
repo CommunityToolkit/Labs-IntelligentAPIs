@@ -3,11 +3,12 @@
     <RootNamespace>IntelligentAPI.ImageClassification</RootNamespace>
   </PropertyGroup>
   <PropertyGroup>
-    <PackageId>CommunityToolkit.Labs.Intelligent.ImageClassification</PackageId>
+    <PackageId>CommunityToolkit.Labs.Intelligent.ImageClassification.WinUI</PackageId>
     <Description>
       This package performs Image Classification on an input image by using the SqueezeNet Onnx model.
     </Description>
-    <Version>0.0.1</Version>
+    <Version>0.0.5</Version>
+    <ContentTargetFolders></ContentTargetFolders>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Text.Json">
@@ -15,20 +16,14 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\model.onnx" Pack="True" PackagePath="Assets">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    <Content Include="Assets\model.onnx" PackageCopyToOutput="True" PackagePath="lib\net50-windows10.0.17763.0\Assets" Pack="True">
     </Content>
-    <Content Include="Assets\Labels.json" Pack="True" PackagePath="Assets">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    <Content Include="Assets\Labels.json" PackageCopyToOutput="True"  PackagePath="lib\net50-windows10.0.17763.0\Assets" Pack="True" >
     </Content>
-    <!--<None Include="$(OutputPath)$(AssemblyName).dll" Pack="True" PackagePath="lib/uap10.0.17763" />
-    <None Include="$(OutputPath)$(AssemblyName).pri" Pack="True" PackagePath="lib/uap10.0.17763" />
-    <None Include="$(OutputPath)$(AssemblyName).pdb" Pack="True" PackagePath="lib/uap10.0.17763" />-->
   </ItemGroup>
   <ItemGroup>
     <None Include="ImageClassifier.licenseheader" />
+    <None Include="CommunityToolkit.Labs.Intelligent.ImageClassification.WinUI.targets" PackagePath="build" Pack="True"/>
   </ItemGroup>
   <Target Name="CustomBeforeBuild" BeforeTargets="BeforeBuild">
     <Exec Command="powershell.exe –NonInteractive –ExecutionPolicy Unrestricted -command &quot;&amp; {.\Scripts\script.ps1 }&quot;" />
