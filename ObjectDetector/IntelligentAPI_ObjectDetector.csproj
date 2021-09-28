@@ -3,25 +3,24 @@
     <RootNamespace>IntelligentAPI.ObjectDetection</RootNamespace>
   </PropertyGroup>
   <PropertyGroup>
-    <PackageId>CommunityToolkit.Labs.Intelligent.ObjectDetection</PackageId>
+    <PackageId>CommunityToolkit.Labs.Intelligent.ObjectDetection.WinUI</PackageId>
     <Description>
       This package performs Object Detection on an input image by using the YOLOv4 Onnx model.
     </Description>
-    <Version>0.0.11</Version>
-    <IncludeContentInPack>true</IncludeContentInPack>
-    <TargetFramework>net5.0-windows10.0.17763.0</TargetFramework>
+    <Version>0.0.1</Version>
+    <ContentTargetFolders></ContentTargetFolders>
   </PropertyGroup>
   <ItemGroup>
        <EmbeddedResource Include="Properties\IntelligentAPI_ObjectDetector.rd.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\yolo.onnx" Pack="True" PackagePath="Assets">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    <Content Include="Assets\yolo.onnx" PackageCopyToOutput="True" PackagePath="lib\net50-windows10.0.17763.0\Assets" Pack="True">
     </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="ObjectDetector.licenseheader" />
+    
+    <None Include="CommunityToolkit.Labs.Intelligent.ObjectDetection.WinUI.targets" PackagePath="build" Pack="True"/>
   </ItemGroup>
   <Target Name="CustomBeforeBuild" BeforeTargets="BeforeBuild">
     <Exec Command="powershell.exe –NonInteractive –ExecutionPolicy Unrestricted -command &quot;&amp; {.\Scripts\script.ps1 }&quot;" />

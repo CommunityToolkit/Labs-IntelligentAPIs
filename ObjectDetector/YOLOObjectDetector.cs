@@ -141,7 +141,7 @@ namespace CommunityToolkit.Labs.Intelligent.ObjectDetection
         public static async Task<List<DetectionResult>> DetectObjects(StorageFile file)
         {
             SoftwareBitmap bitmap = await GenerateSoftwareBitmapFromStorageFile(file);
-            VideoFrame videoFrame = await GenerateVideoFrameFromBitmap(bitmap);
+            VideoFrame videoFrame = GenerateVideoFrameFromBitmap(bitmap);
             return await DetectObjects(videoFrame);
         }
 
@@ -153,7 +153,7 @@ namespace CommunityToolkit.Labs.Intelligent.ObjectDetection
         /// <returns></returns>
         public static async Task<List<DetectionResult>> DetectObjects(SoftwareBitmap bitmap)
         {
-            VideoFrame videoFrame = await GenerateVideoFrameFromBitmap(bitmap);
+            VideoFrame videoFrame = GenerateVideoFrameFromBitmap(bitmap);
             return await DetectObjects(videoFrame);
         }
 
@@ -176,7 +176,7 @@ namespace CommunityToolkit.Labs.Intelligent.ObjectDetection
         /// Load YOLOv4 model, creates LearningModelSession and LearningModelBinding instances
         /// </summary>
         /// <returns></returns>
-        private async Task InitModelAsync()
+        private void InitModelAsync()
         {
             if(_model != null)
             {
@@ -184,16 +184,17 @@ namespace CommunityToolkit.Labs.Intelligent.ObjectDetection
             }
             try
             {
-                var model_file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///" + Path.GetFileName(Path.GetFullPath(AppContext.BaseDirectory).TrimEnd(Path.DirectorySeparatorChar))  + "/Assets//Yolo.onnx"));
-                _model = await LearningModel.LoadFromStorageFileAsync(model_file);
+                var basePath = Path.GetDirectoryName(typeof(YOLOObjectDetector).Assembly.Location);
+                var filePath = Path.Combine(basePath, "yolo.onnx");
+                _model = LearningModel.LoadFromFilePath(filePath);
                 var device = new LearningModelDevice(LearningModelDeviceKind.Default);
                 _session = new LearningModelSession(_model, device);
                 _binding = new LearningModelBinding(_session);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 _model = null;
-                throw ex;
+                throw;
             }
         }
 
@@ -204,7 +205,7 @@ namespace CommunityToolkit.Labs.Intelligent.ObjectDetection
         /// <returns></returns>
         public async Task<List<DetectionResult>> EvaluateFrame(VideoFrame inputImage)
         {
-            await InitModelAsync();
+            InitModelAsync();
             SoftwareBitmap bitmap = inputImage.SoftwareBitmap;
             inputImage = await ResizeImage(inputImage, bitmap);
             _binding.Clear();
@@ -256,7 +257,7 @@ namespace CommunityToolkit.Labs.Intelligent.ObjectDetection
         /// </summary>
         /// <param name="softwareBitmap"></param>
         /// <returns></returns>
-        private static async Task<VideoFrame> GenerateVideoFrameFromBitmap(SoftwareBitmap softwareBitmap)
+        private static VideoFrame GenerateVideoFrameFromBitmap(SoftwareBitmap softwareBitmap)
         {
             // Encapsulate the image within a VideoFrame to be bound and evaluated
             VideoFrame videoFrame = VideoFrame.CreateWithSoftwareBitmap(softwareBitmap);
