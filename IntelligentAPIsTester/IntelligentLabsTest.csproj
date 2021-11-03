@@ -170,10 +170,6 @@
       <Project>{f705b499-d0b5-408c-b1d1-d3f379d0fcd6}</Project>
       <Name>IntelligentAPI_ImageClassifier</Name>
     </ProjectReference>
-    <ProjectReference Include="..\IntelligentAPI_EmotionRecognizer\IntelligentAPI_EmotionRecognizer.csproj">
-      <Project>{2aaf76b9-2b93-4932-909c-09bbf54731fc}</Project>
-      <Name>IntelligentAPI_EmotionRecognizer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ObjectDetector\IntelligentAPI_ObjectDetector.csproj">
       <Project>{6f985dc2-db68-49e5-add8-6d11f35e552e}</Project>
       <Name>IntelligentAPI_ObjectDetector</Name>
