@@ -9,24 +9,29 @@ using Windows.Graphics.Imaging;
 using Windows.Media;
 using Windows.Media.FaceAnalysis;
 using Windows.Storage;
+using Windows.Storage.Streams;
 
 namespace CommunityToolkit.Labs.Intelligent.EmotionRecognition
 {
+    public class DetectedEmotion
+    {
+        public int emotionIndex;
+        public string emotion;      
+    }
     public class EmotionRecognizer
     {
         private LearningModel _model = null;
         private LearningModelSession _session = null;
-        int happinessEmotionIndex;
         private LearningModelBinding _binding = null;
-        FaceDetector faceDetector;
+        private static EmotionRecognizer instance = null;
 
-        List<string> labels;
+        private static List<string> labels;
 
 
-        private async Task LoadModelAsync()
+        private async void InitModelAsync()
         {
             // load model file
-            var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/model_emotion.onnx"));
+            var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///IntelligentAPI_EmotionRecognizer/Assets/model_emotion.onnx"));
 
             //Loads the mdoel from the file
             _model = await LearningModel.LoadFromStorageFileAsync(file);
@@ -48,7 +53,6 @@ namespace CommunityToolkit.Labs.Intelligent.EmotionRecognition
                 "Fear",
                 "Contempt"
             };
-            happinessEmotionIndex = 1; //happiness
         }
 
         LearningModelDeviceKind GetDeviceKind()
@@ -56,12 +60,94 @@ namespace CommunityToolkit.Labs.Intelligent.EmotionRecognition
             return LearningModelDeviceKind.Cpu;
         }
 
-        private async Task<IList<DetectedFace>> DetectFacesInImageAsync(SoftwareBitmap bitmap)
+        private async static Task<IList<DetectedFace>> DetectFacesInImageAsync(SoftwareBitmap bitmap)
         {
-            faceDetector = await FaceDetector.CreateAsync();
+            FaceDetector faceDetector = await FaceDetector.CreateAsync();
             var convertedBitmap = SoftwareBitmap.Convert(bitmap, BitmapPixelFormat.Gray8);
             return await faceDetector.DetectFacesAsync(convertedBitmap);
 
+        }
+
+        public async static Task<DetectedEmotion> DetectEmotion(SoftwareBitmap bitmap)
+        {
+            if (instance == null)
+            {
+                instance = new EmotionRecognizer();
+            }
+
+            return await instance.EvaluateFrame(bitmap);
+        }
+
+        public async Task<DetectedEmotion> EvaluateFrame(SoftwareBitmap softwareBitmap)
+        {
+            InitModelAsync();
+            LoadLabels();
+            DetectedFace detectedFace = await DetectFace(softwareBitmap);
+            if (detectedFace != null)
+            {
+                return await EvaluateEmotionInFace(detectedFace, softwareBitmap);
+            }
+            return null;
+        }
+
+        public async Task<DetectedEmotion> EvaluateEmotionInFace(DetectedFace detectedFace, SoftwareBitmap softwareBitmap)
+        {
+
+                var boundingBox = new Rect(detectedFace.FaceBox.X,
+                                          detectedFace.FaceBox.Y,
+                                          detectedFace.FaceBox.Width,
+                                          detectedFace.FaceBox.Height);
+
+                softwareBitmap = SoftwareBitmap.Convert(softwareBitmap, BitmapPixelFormat.Bgra8);
+
+                var croppedFace = await Crop(softwareBitmap, boundingBox);
+                LearningModelEvaluationResult emotionResults = await BindAndEvaluateModelAsync(croppedFace);
+
+                // to get percentages, you'd need to run the output through a softmax function
+                // we don't need percentages, we just need max value
+                TensorFloat emotionIndexTensor = emotionResults.Outputs["Plus692_Output_0"] as TensorFloat;
+
+                var emotionList = emotionIndexTensor.GetAsVectorView().ToList();
+                var emotionIndex = emotionList.IndexOf(emotionList.Max());
+
+                return new DetectedEmotion() { emotionIndex = emotionIndex, emotion = labels[emotionIndex] };
+            
+
+        }
+
+        private static async Task<DetectedFace> DetectFace(SoftwareBitmap softwareBitmap)
+        {
+            var faces = await DetectFacesInImageAsync(softwareBitmap);
+
+            // if there is a face in the frame, evaluate the emotion
+            var detectedFace = faces.FirstOrDefault();
+            return detectedFace;
+        }
+
+        public static async Task<SoftwareBitmap> Crop(SoftwareBitmap softwareBitmap, Rect bounds)
+        {
+            VideoFrame vid = VideoFrame.CreateWithSoftwareBitmap(softwareBitmap);
+            vid = await Crop(vid, bounds);
+            return vid.SoftwareBitmap;
+
+        }
+        public static async Task<VideoFrame> Crop(VideoFrame videoFrame, Rect bounds)
+        {
+            BitmapBounds cropBounds = new BitmapBounds()
+            {
+                Width = (uint)bounds.Width,
+                Height = (uint)bounds.Height,
+                X = (uint)bounds.X,
+                Y = (uint)bounds.Y
+            };
+            VideoFrame result = new VideoFrame(BitmapPixelFormat.Bgra8,
+                                               (int)cropBounds.Width,
+                                               (int)cropBounds.Height,
+                                               BitmapAlphaMode.Premultiplied);
+
+            await videoFrame.CopyToAsync(result, cropBounds, null);
+
+            return result;
         }
 
 
