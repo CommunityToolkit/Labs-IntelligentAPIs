@@ -1,0 +1,24 @@
+﻿<Project Sdk="MSBuild.Sdk.Extras">
+  <PropertyGroup>
+    <RootNamespace>IntelligentAPI.EmotionRecognition</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PackageId>CommunityToolkit.Labs.Intelligent.EmotionRecognition</PackageId>
+    <Description>
+      This package performs Emotion Recognition on an input image by using the Emotion FERPlus model.
+    </Description>
+    <Version>0.0.1</Version>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\IntelligentAPI_EmotionRecognizer.rd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\model_emotion.onnx" Pack="True" PackagePath="lib/uap10.0.17763/Assets"/>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ImageClassifier.licenseheader" />
+  </ItemGroup>
+  <Target Name="CustomBeforeBuild" BeforeTargets="BeforeBuild">
+    <Exec Command="powershell.exe –NonInteractive –ExecutionPolicy Unrestricted -command &quot;&amp; {.\Scripts\script.ps1 }&quot;" />
+  </Target>
+</Project>
