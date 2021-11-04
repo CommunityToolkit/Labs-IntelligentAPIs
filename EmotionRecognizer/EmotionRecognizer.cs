@@ -13,18 +13,50 @@ using Windows.Storage.Streams;
 
 namespace CommunityToolkit.Labs.Intelligent.EmotionRecognition
 {
+    /// <summary>
+    /// Detection result class that contains the index and emotion of a face in the input image. 
+    /// </summary>
     public class DetectedEmotion
     {
+        /// <summary>
+        /// Index of the result in the array ["Neutral","Happiness","Surprise","Sadness","Anger","Disgust","Fear","Contempt"]
+        /// </summary>
         public int emotionIndex;
+
+        /// <summary>
+        /// Emotion result 
+        /// </summary>
         public string emotion;      
     }
+
+    /// <summary>
+    /// EmotionRecognizer class
+    /// </summary>
     public class EmotionRecognizer
     {
+        /// <summary>
+        /// Model file
+        /// </summary>
         private LearningModel _model = null;
+
+        /// <summary>
+        /// Session instance
+        /// </summary>
         private LearningModelSession _session = null;
+
+        /// <summary>
+        /// Binding
+        /// </summary>
         private LearningModelBinding _binding = null;
+
+        /// <summary>
+        /// EmotionRecognizer instance
+        /// </summary>
         private static EmotionRecognizer instance = null;
 
+        /// <summary>
+        /// List of labels  
+        /// </summary>
         private static List<string> labels;
 
 
@@ -40,6 +72,9 @@ namespace CommunityToolkit.Labs.Intelligent.EmotionRecognition
             _session = new LearningModelSession(_model, new LearningModelDevice(GetDeviceKind()));
         }
 
+        /// <summary>
+        /// Load labels
+        /// </summary>
         private void LoadLabels()
         {
             labels = new List<string>()
@@ -60,6 +95,11 @@ namespace CommunityToolkit.Labs.Intelligent.EmotionRecognition
             return LearningModelDeviceKind.Cpu;
         }
 
+        /// <summary>
+        /// Detect Faces in image
+        /// </summary>
+        /// <param name="bitmap"></param>
+        /// <returns></returns>
         private async static Task<IList<DetectedFace>> DetectFacesInImageAsync(SoftwareBitmap bitmap)
         {
             FaceDetector faceDetector = await FaceDetector.CreateAsync();
@@ -68,6 +108,11 @@ namespace CommunityToolkit.Labs.Intelligent.EmotionRecognition
 
         }
 
+        /// <summary>
+        /// Detect emotion on a face in an input image
+        /// </summary>
+        /// <param name="bitmap"></param>
+        /// <returns></returns>
         public async static Task<DetectedEmotion> DetectEmotion(SoftwareBitmap bitmap)
         {
             if (instance == null)
@@ -78,7 +123,12 @@ namespace CommunityToolkit.Labs.Intelligent.EmotionRecognition
             return await instance.EvaluateFrame(bitmap);
         }
 
-        public async Task<DetectedEmotion> EvaluateFrame(SoftwareBitmap softwareBitmap)
+        /// <summary>
+        /// Evaluate frame
+        /// </summary>
+        /// <param name="softwareBitmap"></param>
+        /// <returns></returns>
+        private async Task<DetectedEmotion> EvaluateFrame(SoftwareBitmap softwareBitmap)
         {
             InitModelAsync();
             LoadLabels();
@@ -90,7 +140,13 @@ namespace CommunityToolkit.Labs.Intelligent.EmotionRecognition
             return null;
         }
 
-        public async Task<DetectedEmotion> EvaluateEmotionInFace(DetectedFace detectedFace, SoftwareBitmap softwareBitmap)
+        /// <summary>
+        /// Evaluate emotion in face
+        /// </summary>
+        /// <param name="detectedFace"></param>
+        /// <param name="softwareBitmap"></param>
+        /// <returns></returns>
+        private async Task<DetectedEmotion> EvaluateEmotionInFace(DetectedFace detectedFace, SoftwareBitmap softwareBitmap)
         {
 
                 var boundingBox = new Rect(detectedFace.FaceBox.X,
@@ -115,6 +171,11 @@ namespace CommunityToolkit.Labs.Intelligent.EmotionRecognition
 
         }
 
+        /// <summary>
+        /// Detect face
+        /// </summary>
+        /// <param name="softwareBitmap"></param>
+        /// <returns></returns>
         private static async Task<DetectedFace> DetectFace(SoftwareBitmap softwareBitmap)
         {
             var faces = await DetectFacesInImageAsync(softwareBitmap);
@@ -124,14 +185,14 @@ namespace CommunityToolkit.Labs.Intelligent.EmotionRecognition
             return detectedFace;
         }
 
-        public static async Task<SoftwareBitmap> Crop(SoftwareBitmap softwareBitmap, Rect bounds)
+        private static async Task<SoftwareBitmap> Crop(SoftwareBitmap softwareBitmap, Rect bounds)
         {
             VideoFrame vid = VideoFrame.CreateWithSoftwareBitmap(softwareBitmap);
             vid = await Crop(vid, bounds);
             return vid.SoftwareBitmap;
 
         }
-        public static async Task<VideoFrame> Crop(VideoFrame videoFrame, Rect bounds)
+        private static async Task<VideoFrame> Crop(VideoFrame videoFrame, Rect bounds)
         {
             BitmapBounds cropBounds = new BitmapBounds()
             {
