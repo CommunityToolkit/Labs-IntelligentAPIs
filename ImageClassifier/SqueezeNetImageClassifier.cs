@@ -70,7 +70,7 @@ namespace CommunityToolkit.Labs.Intelligent.ImageClassification
         {
             CreateInstanceIfNone();
             SoftwareBitmap softwareBitmap = await GenerateSoftwareBitmapFromStorageFile(selectedStorageFile);
-            VideoFrame videoFrame = await GenerateVideoFrameFromBitmap(softwareBitmap);
+            VideoFrame videoFrame = GenerateVideoFrameFromBitmap(softwareBitmap);
             return await instance.EvaluateModel(videoFrame, top);
         }
 
@@ -84,7 +84,7 @@ namespace CommunityToolkit.Labs.Intelligent.ImageClassification
         {
             CreateInstanceIfNone();
             softwareBitmap = GetSoftwareBitmap(softwareBitmap);
-            VideoFrame videoFrame = await GenerateVideoFrameFromBitmap(softwareBitmap);
+            VideoFrame videoFrame = GenerateVideoFrameFromBitmap(softwareBitmap);
             return await instance.EvaluateModel(videoFrame, top);
         }
 
@@ -129,11 +129,8 @@ namespace CommunityToolkit.Labs.Intelligent.ImageClassification
         /// </summary>
         /// <param name="softwareBitmap"></param>
         /// <returns></returns>
-        private static async Task<VideoFrame> GenerateVideoFrameFromBitmap(SoftwareBitmap softwareBitmap)
+        private static VideoFrame GenerateVideoFrameFromBitmap(SoftwareBitmap softwareBitmap)
         {
-            SoftwareBitmapSource imageSource = new SoftwareBitmapSource();
-            await imageSource.SetBitmapAsync(softwareBitmap);
-
             // Encapsulate the image within a VideoFrame to be bound and evaluated
             VideoFrame videoFrame = VideoFrame.CreateWithSoftwareBitmap(softwareBitmap);
             return videoFrame;
@@ -170,7 +167,6 @@ namespace CommunityToolkit.Labs.Intelligent.ImageClassification
         /// <returns></returns>
         private static SoftwareBitmap GetSoftwareBitmap(SoftwareBitmap softwareBitmap)
         {
-            SoftwareBitmapSource imageSource = new SoftwareBitmapSource();
             if (softwareBitmap.BitmapPixelFormat != BitmapPixelFormat.Bgra8 || (softwareBitmap.BitmapAlphaMode != BitmapAlphaMode.Ignore && softwareBitmap.BitmapAlphaMode != BitmapAlphaMode.Premultiplied))
             {
                 softwareBitmap = SoftwareBitmap.Convert(softwareBitmap, BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied);

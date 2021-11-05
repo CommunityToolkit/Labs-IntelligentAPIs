@@ -14,7 +14,7 @@
             <ImageBrush Stretch="Fill" ImageSource="./Assets/background.jpg" Opacity="0.7"></ImageBrush>
         </Grid.Background>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20" Background="White" Padding="20" CornerRadius="20">
-            <TextBlock>Welcome to IntelligentAPIs Test Project! Pick an image to continue.</TextBlock>
+            <TextBlock>Welcome to IntelligentAPIs Test Project! Pick an image to try Image Classification and Object Detection.</TextBlock>
             <Button Name="FilePickerButton"
                         ToolTipService.ToolTip="Pick and evaluate and image"
                         Width="100"
@@ -24,6 +24,18 @@
                         HorizontalAlignment="Center">
                 <Button.Content>
                     Pick image
+                </Button.Content>
+            </Button>
+            <TextBlock HorizontalAlignment="Center">Capture an image on your webcam to try Emotion Detection.</TextBlock>
+            <Button Name="CaptureImageButton"
+                        ToolTipService.ToolTip="Capture image using webcam"
+                        Width="130"
+                        Height="40"
+                        Click="CaptureImageButton_Click" 
+                        IsEnabled="True" 
+                        HorizontalAlignment="Center">
+                <Button.Content>
+                    Webcam capture
                 </Button.Content>
             </Button>
             <ProgressRing Name="FilePickerProgressRing"></ProgressRing>

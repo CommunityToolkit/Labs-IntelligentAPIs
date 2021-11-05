@@ -166,6 +166,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EmotionRecognizer\IntelligentAPI_EmotionRecognizer.csproj">
+      <Project>{784a3c01-bd0b-4db9-b1ff-2a16e2b03a65}</Project>
+      <Name>IntelligentAPI_EmotionRecognizer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ImageClassifier\IntelligentAPI_ImageClassifier.csproj">
       <Project>{f705b499-d0b5-408c-b1d1-d3f379d0fcd6}</Project>
       <Name>IntelligentAPI_ImageClassifier</Name>

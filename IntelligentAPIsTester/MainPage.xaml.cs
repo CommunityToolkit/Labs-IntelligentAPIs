@@ -13,8 +13,8 @@ using CommunityToolkit.Labs.Intelligent.ImageClassification;
 using CommunityToolkit.Labs.Intelligent.ObjectDetection;
 using Windows.UI.Xaml.Shapes;
 using Windows.UI;
-
-
+using Windows.Media.Capture;
+using Windows.Foundation;
 namespace IntelligentLabsTest
 {
     /// <summary>
@@ -46,13 +46,42 @@ namespace IntelligentLabsTest
             if (selectedStorageFile != null)
             {
                 Frame rootFrame = Window.Current.Content as Frame;
-                rootFrame.Navigate(typeof(ResultsPage), selectedStorageFile);
+                Input input = new Input() { file = selectedStorageFile, typeOfInput = TypeOfInput.File };
+                rootFrame.Navigate(typeof(ResultsPage), input);
             }
             else
             {
                 FilePickerButton.IsEnabled = true;
                 FilePickerProgressRing.IsActive = false;
             }
+        }
+
+        private async void CaptureImageButton_Click(object sender, RoutedEventArgs e)
+        {
+            CameraCaptureUI dialog = new CameraCaptureUI();
+            Size aspectRatio = new Size(16, 9);
+            dialog.PhotoSettings.CroppedAspectRatio = aspectRatio;
+
+            StorageFile file = await dialog.CaptureFileAsync(CameraCaptureUIMode.Photo);
+
+            if(file != null)
+            {
+                Frame rootFrame = Window.Current.Content as Frame;
+                Input input = new Input() { file = file, typeOfInput = TypeOfInput.Camera };
+                rootFrame.Navigate(typeof(ResultsPage), input);
+            }
+        }
+
+        public enum TypeOfInput
+        {
+            Camera,
+            File
+        }
+
+        public class Input
+        {
+            public StorageFile file;
+            public TypeOfInput typeOfInput;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿
 using CommunityToolkit.Labs.Intelligent.ImageClassification;
 using CommunityToolkit.Labs.Intelligent.ObjectDetection;
+using CommunityToolkit.Labs.Intelligent.EmotionRecognition;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Graphics.Imaging;
+using Windows.Media.Capture;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.System.Profile;
@@ -60,37 +62,47 @@ namespace IntelligentLabsTest
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;
-            if (!(e.Parameter is StorageFile selectedStorageFile))
+            if (!(e.Parameter is MainPage.Input input))
             {
                 rootFrame.GoBack();
                 return;
             }
 
-            await DisplayImage(selectedStorageFile);
+            await DisplayImage(input.file);
 
-            try
+            if (input.typeOfInput.Equals(MainPage.TypeOfInput.File))
             {
-                //Use Squeezenet model to classify image
-                List<ClassificationResult> imageClasses = await SqueezeNetImageClassifier.ClassifyImage(selectedStorageFile, 3 );
-                UpdateTextBox(imageClasses);
-
-              
-            }
-            catch(Exception exc)
-            {
-               
-                if(exc is ArgumentOutOfRangeException)
+                try
                 {
-                    ResultsBlock.Text = exc.Message;
-                }
-            }
+                    //Use Squeezenet model to classify image
+                    List<ClassificationResult> imageClasses = await SqueezeNetImageClassifier.ClassifyImage(input.file, 3);
+                    UpdateTextBoxForImageClassification(imageClasses);
 
-            
-            //Use YOLOv4 to detect objects. WORKS ONLY IF YOU ARE RUNNING WINDOWS 11!!
-            if (CheckWindowsBuildNumber())
+
+                }
+                catch (Exception exc)
+                {
+
+                    if (exc is ArgumentOutOfRangeException)
+                    {
+                        ResultsBlock.Text = exc.Message;
+                    }
+                }
+
+
+                //Use YOLOv4 to detect objects. WORKS ONLY IF YOU ARE RUNNING WINDOWS 11!!
+                if (CheckWindowsBuildNumber())
+                {
+                    List<DetectionResult> listOfObjects = await YOLOObjectDetector.DetectObjects(input.file);
+                    DrawBoxes(listOfObjects);
+                }
+
+            }
+            else
             {
-                List<DetectionResult> listOfObjects = await YOLOObjectDetector.DetectObjects(selectedStorageFile);
-                DrawBoxes(listOfObjects);
+                DetectedEmotion detectedEmotion = await EmotionRecognizer.DetectEmotion(input.file);
+                UpdateTextBoxForEmotionRecognition(detectedEmotion);
+
             }
 
             ProgressRing.IsActive = false;
@@ -139,7 +151,7 @@ namespace IntelligentLabsTest
         /// <param name="imageClasses"></param>
         /// <param name="listOfObjects"></param>
         /// <returns></returns>
-        private void UpdateTextBox(List<ClassificationResult> imageClasses)
+        private void UpdateTextBoxForImageClassification(List<ClassificationResult> imageClasses)
         {
             ResultsBlock.Text = "";
 
@@ -159,6 +171,27 @@ namespace IntelligentLabsTest
                 ResultsBlock.Text += imageClasses[i].category + " (" + Math.Round(imageClasses[i].confidence, 2) + ")\n";
 
             }
+
+        }
+
+        /// <summary>
+        /// Updates the text box with results from image classification and object detection
+        /// </summary>
+        /// <param name="imageClasses"></param>
+        /// <param name="listOfObjects"></param>
+        /// <returns></returns>
+        private void UpdateTextBoxForEmotionRecognition(DetectedEmotion detectedEmotion)
+        {
+            ResultsBlock.Text = "";
+
+            if (detectedEmotion == null)
+            {
+                ResultsBlock.Text = "No face detected";
+                return;
+            }
+
+
+            ResultsBlock.Text += "Detected Emotion: " + detectedEmotion.emotion;
 
         }
 

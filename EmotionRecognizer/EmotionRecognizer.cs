@@ -129,6 +129,19 @@ namespace CommunityToolkit.Labs.Intelligent.EmotionRecognition
         }
 
         /// <summary>
+        /// Detect emotion on a face in an input image
+        /// </summary>
+        /// <param name="bitmap"></param>
+        /// <returns>
+        /// Returns detected emotion in DetectedEmotion object, null if no face was detected.
+        /// </returns>
+        public async static Task<DetectedEmotion> DetectEmotion(StorageFile storageFile)
+        {
+            SoftwareBitmap bitmap = await GenerateSoftwareBitmapFromStorageFile(storageFile);
+            return await DetectEmotion(bitmap);
+        }
+
+        /// <summary>
         /// Evaluate frame
         /// </summary>
         /// <param name="softwareBitmap"></param>
@@ -188,6 +201,41 @@ namespace CommunityToolkit.Labs.Intelligent.EmotionRecognition
             // if there is a face in the frame, evaluate the emotion
             var detectedFace = faces.FirstOrDefault();
             return detectedFace;
+        }
+
+        /// <summary>
+        /// Converts object of type StorageFile to SoftwareBitmap
+        /// </summary>
+        /// <param name="selectedStorageFile"></param>
+        /// <returns></returns>
+        private static async Task<SoftwareBitmap> GenerateSoftwareBitmapFromStorageFile(StorageFile selectedStorageFile)
+        {
+            SoftwareBitmap softwareBitmap;
+            using (IRandomAccessStream stream = await selectedStorageFile.OpenAsync(FileAccessMode.Read))
+            {
+                // Create the decoder from the stream 
+                BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
+
+                // Get the SoftwareBitmap representation of the file in BGRA8 format
+                softwareBitmap = await decoder.GetSoftwareBitmapAsync();
+                softwareBitmap = GetSoftwareBitmap(softwareBitmap);
+            }
+
+            return softwareBitmap;
+        }
+
+        /// <summary>
+        /// Get Software Bitmap
+        /// </summary>
+        /// <param name="softwareBitmap"></param>
+        /// <returns></returns>
+        private static SoftwareBitmap GetSoftwareBitmap(SoftwareBitmap softwareBitmap)
+        {
+            if (softwareBitmap.BitmapPixelFormat != BitmapPixelFormat.Bgra8 || (softwareBitmap.BitmapAlphaMode != BitmapAlphaMode.Ignore && softwareBitmap.BitmapAlphaMode != BitmapAlphaMode.Premultiplied))
+            {
+                softwareBitmap = SoftwareBitmap.Convert(softwareBitmap, BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied);
+            }
+            return softwareBitmap;
         }
 
         private static async Task<SoftwareBitmap> Crop(SoftwareBitmap softwareBitmap, Rect bounds)
