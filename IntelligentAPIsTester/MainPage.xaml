@@ -26,17 +26,6 @@
                     Pick image
                 </Button.Content>
             </Button>
-            <Button Name="FilePickerButton"
-                        ToolTipService.ToolTip="Pick and evaluate and image"
-                        Width="100"
-                        Height="40"
-                        Click="Emotion_Button_Click" 
-                        IsEnabled="True" 
-                        HorizontalAlignment="Center">
-                <Button.Content>
-                    Recognize emotion
-                </Button.Content>
-            </Button>
             <ProgressRing Name="FilePickerProgressRing"></ProgressRing>
         </StackPanel>
     </Grid>

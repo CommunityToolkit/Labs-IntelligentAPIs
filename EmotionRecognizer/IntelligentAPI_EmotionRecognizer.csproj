@@ -10,12 +10,6 @@
     <Version>0.0.2</Version>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="EmotionRecognizer.licenseheader" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="EmotionRecognizer.licenseheader" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Properties\IntelligentAPI_EmotionRecognizer.rd.xml" />
   </ItemGroup>
   <ItemGroup>

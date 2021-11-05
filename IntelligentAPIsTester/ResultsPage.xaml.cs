@@ -1,7 +1,6 @@
 ﻿
 using CommunityToolkit.Labs.Intelligent.ImageClassification;
 using CommunityToolkit.Labs.Intelligent.ObjectDetection;
-using CommunityToolkit.Labs.Intelligent.EmotionRecognition;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -127,7 +126,6 @@ namespace IntelligentLabsTest
                 // Get the SoftwareBitmap representation of the file in BGRA8 format
                 softwareBitmap = await decoder.GetSoftwareBitmapAsync();
                 softwareBitmap = SoftwareBitmap.Convert(softwareBitmap, BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied);
-                var stuff = await EmotionRecognizer.DetectEmotion(softwareBitmap);
             }
             // Display the image
             SoftwareBitmapSource imageSource = new SoftwareBitmapSource();
