@@ -3,7 +3,7 @@
     <RootNamespace>IntelligentAPI.EmotionRecognition</RootNamespace>
   </PropertyGroup>
   <PropertyGroup>
-    <PackageId>CommunityToolkit.Labs.Intelligent.EmotionRecognition2</PackageId>
+    <PackageId>CommunityToolkit.Labs.Intelligent.EmotionRecognition</PackageId>
     <Description>
       This package performs Emotion Recognition on an input image by using the Emotion FERPlus model.
     </Description>
