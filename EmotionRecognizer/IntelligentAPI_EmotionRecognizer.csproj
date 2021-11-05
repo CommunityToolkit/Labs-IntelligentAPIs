@@ -10,13 +10,16 @@
     <Version>0.0.2</Version>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="EmotionRecognizer.licenseheader" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="EmotionRecognizer.licenseheader" />
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="Properties\IntelligentAPI_EmotionRecognizer.rd.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\model_emotion.onnx" Pack="True" PackagePath="lib/uap10.0.17763/Assets"/>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ImageClassifier.licenseheader" />
+    <Content Include="Assets\model_emotion.onnx" Pack="True" PackagePath="lib/uap10.0.17763/Assets" />
   </ItemGroup>
   <Target Name="CustomBeforeBuild" BeforeTargets="BeforeBuild">
     <Exec Command="powershell.exe –NonInteractive –ExecutionPolicy Unrestricted -command &quot;&amp; {.\Scripts\script.ps1 }&quot;" />
