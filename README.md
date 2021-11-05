@@ -60,6 +60,17 @@ This nuget package performs object detection using [YOLOv4](https://github.com/h
 <img src="https://user-images.githubusercontent.com/22471775/127563873-886ca161-607b-4306-8651-afb6cf84245e.png" alt="drawing" width="300"/>
 </div>
 
+## NEW!!! Emotion Recognition
+To perform emotion recognition, import the `CommunityToolkit.Labs.Intelligent.EmotionRecognition` nuget package. To detect emotion in an image, you can either pass a StorageFile object or a SoftwareBitmap of the image.
+
+```C#
+   using CommunityToolkit.Labs.Intelligent.EmotionRecognition;
+   ...
+   DetectedEmotion detectedEmotion = await EmotionRecognizer.DetectEmotion(selectedStorageFile);    
+```
+<div  align="center">
+<img width="378" alt="image" src="https://user-images.githubusercontent.com/22471775/140475535-6b38f155-e333-45f3-a23a-9fd7302c2e9b.png">
+</div>
 
 ## 🧪 This project is under Community Toolkit Labs. What does that mean?
 
