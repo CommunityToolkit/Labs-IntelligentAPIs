@@ -8,7 +8,7 @@ if (-not(Test-Path -Path $emotionferplusfile -PathType Leaf)) {
       New-Item -ItemType Directory -Force -Path $folderPath
      } 
      try {
-         Invoke-WebRequest -URI "https://github.com/onnx/models/raw/master/vision/body_analysis/emotion_ferplus/model/emotion-ferplus-8.onnx" -OutFile $emotionferplusfile
+         Invoke-WebRequest -URI "https://github.com/onnx/models/raw/main/vision/body_analysis/emotion_ferplus/model/emotion-ferplus-8.onnx" -OutFile $emotionferplusfile
          Write-Host "The file [$emotionferplusfile] has been created."
      }
      catch {
